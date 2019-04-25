@@ -1,0 +1,27 @@
+{
+  "name": "react-express",
+  "version": "1.0.0",
+  "description": "Form connecting to salesforce using react and express",
+  "main": "server.js",
+  "scripts": {
+    "client-i": "cd client && npm i",
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "author": "rubenberna",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "concurrently": "^4.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^7.0.0",
+    "express": "^4.16.4",
+    "express-session": "^1.16.1",
+    "jsforce": "^1.9.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.11"
+  }
+}
