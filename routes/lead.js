@@ -3,10 +3,10 @@ const router = express.Router();
 const salesforce = require('../config/salesforce')
 
 router.post('/', async (req, res) => {
-  const obj = req.body
+  const obj = Object.values(req.body)
   await salesforce.createLead(obj)
-    .then(lead => res.status(200).send(lead))
-    .catch(err => res.status(404).send(err))
+    .then(res => res.sendStatus(200))
+    .catch(err => res.sendStatus(404))
 })
 
 module.exports = router;
