@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
+const salesforce = require('../config/salesforce')
 
-router.post('/', async (req, res) => {
-  console.log('got here');
-  console.log(req.body);
-
-
+router.post('/', async (req, res) => {  
+  const obj = Object.values(req.body)
+  await salesforce.createSolicitant(obj)
+    .then(res => res.sendStatus(200))
+    .catch(err => res.sendStatus(404))
 })
 
 module.exports = router;
