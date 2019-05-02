@@ -60,16 +60,12 @@ if (cluster.isMaster) {
       app.use(favicon(__dirname + '/build/favicon.ico'));
       // Static folder
       app.use(express.static(__dirname));
-      // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))    
       // Handle SPA
       app.use(express.static(path.join(__dirname, 'build')));
   
       app.get('/*', function (req, res) {
         res.sendFile(path.join(__dirname, 'build', 'index.html'));
       });
-
-      // reads: any route at all, send the file index.html located in the public folder
-      // Use .env variables
       require('dotenv').load();
     }
     app.listen(port, () => {
