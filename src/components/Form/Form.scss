@@ -1,0 +1,22 @@
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 85vh;
+  margin-left: -115px;
+
+  .form-options-selected {
+    width: 65%;
+  }
+
+  .form-border {
+    border: 3px solid;
+    padding: 25px;
+  }
+
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
