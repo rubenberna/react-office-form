@@ -63,8 +63,8 @@ class LoginForm extends React.Component {
     return (
       <div>
         <NegativeMessage visible={messageVisible} onClose={this.closeMsg} >
-          <span>What are you doing??? </span>
-          <p>Please select a Kantoor and password first</p>
+          <span>Haastige spoed is zelden goed </span>
+          <p>Je moet een kantoor en een password selecteren!</p>
         </NegativeMessage>
 
         <Form onSubmit={ this.handleSubmit }>

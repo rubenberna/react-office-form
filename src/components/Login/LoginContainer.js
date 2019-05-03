@@ -63,8 +63,8 @@ class LoginContainer extends React.Component {
     return (
       <div className="login-container">
         <NegativeMessage visible={ messageVisible } onClose={ this.closeMsg } > 
-          <span>Password is wrong :( </span>
-          <p>It should be easy</p>
+          <span>Helaas pindakaas </span>
+          <p>Je password is niet juist ingevuld !</p>
         </NegativeMessage> 
         { this.renderLoading() }
       </div>

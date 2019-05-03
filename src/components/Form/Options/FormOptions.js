@@ -1,11 +1,11 @@
 import React from 'react';
 import {
   Button,
-  Container,
-  Transition
+  Container
 } from 'semantic-ui-react';
 import FormKlant from './Forms/FormOptionsKlant';
 import FormSolicitant from './Forms/FormOptionsSolicitant'
+import Tumbleweed from '../../Layout/Tumbleweed/Tumbleweed'
 
 class FormOptions extends React.Component {
   state = {
@@ -41,14 +41,10 @@ class FormOptions extends React.Component {
 
   switchForm() {
     const { onFormSubmit } = this.props
-    const { klantBtn, solicitantBtn, animation, duration } = this.state
-    if (klantBtn) return (
-      <Transition.Group animation={animation} >
-        <FormKlant onFormSubmit={ onFormSubmit } closeForm={ this.closeForm} />
-      </Transition.Group>
-      )
-    else if (solicitantBtn) return ( <FormSolicitant onFormSubmit={ onFormSubmit } closeForm={ this.closeForm} />)
-    else return
+    const { klantBtn, solicitantBtn } = this.state
+    if (klantBtn) return (<FormKlant onFormSubmit={ onFormSubmit } closeForm={ this.closeForm} />)
+    else if (solicitantBtn) return (<FormSolicitant onFormSubmit={onFormSubmit} closeForm={this.closeForm} />)
+    else return (<Tumbleweed />)
   }
 
   render() {
@@ -57,7 +53,7 @@ class FormOptions extends React.Component {
       <Container>
         <div className="form-options">
           <div className="form-options-buttons">
-            <h3>Please pick your form</h3>
+            <h3 style={{ textAlign: 'center' }}>Selecteer uw form</h3>
             <div>
               <Button 
                 toggle active={klantBtn} 
