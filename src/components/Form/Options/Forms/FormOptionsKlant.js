@@ -5,6 +5,8 @@ import { withRouter } from 'react-router-dom'
 import dbOffices from '../../../db/dboffices'
 import Gif from '../../../Layout/Animations/Gif'
 import Slogan from '../../../Layout/Animations/Slogan'
+import NegativeMessage from '../../../Layout/Message/NegativeMessage'
+import Loader from '../../../Layout/Loader/Loader'
 import styled, { keyframes } from 'styled-components';
 import { slideInRight } from 'react-animations';
 
@@ -40,18 +42,33 @@ class FormKlant extends Component {
     })    
   }
 
-  handleSubmit = e => {
+  toggleGif = () => {
+    const { error } = this.props
+    if (!error) {
+      this.setState({
+        messageVisible: true
+      })
+    }
+  }
+
+  handleSubmit = async e => {
     e.preventDefault();
-    const { onFormSubmit, closeForm } = this.props
+    const { onFormSubmit, closeForm, closeError } = this.props
     onFormSubmit(this.state, 'lead')
-    this.setState({
-      messageVisible: true
-    })
-    setTimeout(() => { closeForm('klantBtn')}, 6000)
+    this.setState({ loading: true })
+    setTimeout(() => {
+      this.setState({ loading: false })
+      this.toggleGif()
+    }, 1000)
+    setTimeout(() => {
+      closeForm('klantBtn')
+      closeError()
+    }, 6000)
   }
 
   render() {
-    const { Frequentie__c, messageVisible, lead_source } = this.state
+    const { Frequentie__c, messageVisible, lead_source, loading } = this.state
+    const { error, closeError } = this.props
     return (
       <div>
         {messageVisible &&
@@ -62,7 +79,7 @@ class FormKlant extends Component {
             </Slogan>
           </div>
         }
-        { !messageVisible && 
+        { !messageVisible && !loading &&
           <AnimationDiv>
             <Form className='form-border' 
                 onSubmit={ this.handleSubmit }>
@@ -125,6 +142,13 @@ class FormKlant extends Component {
             </Form>
           </AnimationDiv>
         }
+        {
+          <NegativeMessage visible={ error } onClose={ closeError } >
+            <span>Something went wrong :(</span>
+            <p>Please contact Red Carrots team</p>
+          </NegativeMessage> 
+        }
+        {loading && <Loader />}
       </div>
     )
   }

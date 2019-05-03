@@ -5,16 +5,24 @@ import webtolead from '../Api/webtolead'
 import './Form.scss'
 
 class Form extends React.Component {
-  state = {}
+  state = {
+    error: false
+  }
 
   renderOptions = () => {
-    const { user } = this.props
-    const { history } = this.props
+    const { user, history } = this.props
+    const { error } = this.state
     if ( !user ) {
       history.push('/login')
     } else {
-      return (<FormOptions onFormSubmit={ this.switchForm }/>)
+      return (<FormOptions onFormSubmit={ this.switchForm } error={ error } closeError= { this.closeError }/>)
     }
+  }
+
+  closeError = () => {
+    this.setState({
+      error: false
+    })
   }
 
   switchForm = ( obj, type ) => {
@@ -27,7 +35,8 @@ class Form extends React.Component {
     obj.RegioId__c = user.regioID
     obj.KantoorId__c = user.sf_id
     obj.company = user.name
-    webtolead.postLead(obj)
+    const post = await webtolead.postLead(obj)
+    if (post !== 200) this.setState({ error: post })  
   }
 
   createSolicitant = async (obj) => {
@@ -35,7 +44,8 @@ class Form extends React.Component {
     obj.KantoorId__c = user.sf_id
     obj.company = user.name
     obj.RegioId__c = user.regioID
-    webtolead.postSolicitant(obj)
+    const post = await webtolead.postSolicitant(obj)
+    if (post !== 200) this.setState({ error: post})
   }
 
   render() {

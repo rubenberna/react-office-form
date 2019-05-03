@@ -4,6 +4,8 @@ import '../../Form.scss'
 import dbOffices from '../../../db/dboffices'
 import Gif from '../../../Layout/Animations/Gif'
 import Slogan from '../../../Layout/Animations/Slogan'
+import NegativeMessage from '../../../Layout/Message/NegativeMessage'
+import Loader from '../../../Layout/Loader/Loader'
 import styled, { keyframes } from 'styled-components';
 import { slideInRight } from 'react-animations';
 
@@ -28,18 +30,32 @@ class FormSolicitant extends Component {
     })
   }
 
-  handleSubmit = e => {
+  toggleGif = () => {
+    const { error } = this.props
+    if(!error) {
+      this.setState({
+        messageVisible: true
+      })
+    }
+  }
+
+  handleSubmit = async e => {
     e.preventDefault();
-    const { onFormSubmit, closeForm } = this.props
+    const { onFormSubmit, closeForm, closeError } = this.props
     onFormSubmit(this.state, 'solicitant')
-    this.setState({
-      messageVisible: true
-    })
-    setTimeout(() => { closeForm('solicitantBtn')}, 6000)
+    this.setState({ loading: true })
+    setTimeout(() => {
+      this.setState({ loading: false })
+      this.toggleGif()}, 1000 )
+    setTimeout(() => { 
+      closeForm('solicitantBtn')
+      closeError()
+      }, 6000)
   }
 
   render() {  
-    const { messageVisible, lead_source } = this.state
+    const { messageVisible, lead_source, loading } = this.state
+    const { error, closeError } = this.props
     return (
       <div>
         { messageVisible && 
@@ -50,8 +66,8 @@ class FormSolicitant extends Component {
             </Slogan>
           </div>
         }
-        { !messageVisible && 
-            <AnimationDiv>
+        { !messageVisible && !loading &&
+          <AnimationDiv>
               <Form className='form-border' onSubmit={ this.handleSubmit }>
                   <h3>Nieuwe Solicitant</h3>
                   <Form.Group widths='equal'>
@@ -77,6 +93,13 @@ class FormSolicitant extends Component {
                 </Form> 
             </AnimationDiv>
         }
+        {
+          <NegativeMessage visible={error} onClose={closeError} >
+            <span>Something went wrong :(</span>
+            <p>Please contact Red Carrots team</p>
+          </NegativeMessage>
+        }
+        { loading && <Loader/> }
       </div>
     )
   }

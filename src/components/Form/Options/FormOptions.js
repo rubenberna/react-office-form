@@ -40,10 +40,10 @@ class FormOptions extends React.Component {
   }
 
   switchForm() {
-    const { onFormSubmit } = this.props
+    const { onFormSubmit, error, closeError } = this.props
     const { klantBtn, solicitantBtn } = this.state
-    if (klantBtn) return (<FormKlant onFormSubmit={ onFormSubmit } closeForm={ this.closeForm} />)
-    else if (solicitantBtn) return (<FormSolicitant onFormSubmit={onFormSubmit} closeForm={this.closeForm} />)
+    if (klantBtn) return (<FormKlant onFormSubmit={ onFormSubmit } closeForm={ this.closeForm} error={ error } closeError={ closeError } />)
+    else if (solicitantBtn) return (<FormSolicitant onFormSubmit={onFormSubmit} closeForm={this.closeForm} error={error} closeError={ closeError }/>)
     else return (<Tumbleweed />)
   }
 
