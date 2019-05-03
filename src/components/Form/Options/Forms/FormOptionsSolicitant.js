@@ -2,20 +2,16 @@ import React, { Component } from 'react'
 import { Form } from 'semantic-ui-react'
 import '../../Form.scss'
 import dbOffices from '../../../db/dboffices'
-import Iframe from 'react-iframe'
+import Gif from '../../../Layout/Animations/Gif'
+import Slogan from '../../../Layout/Animations/Slogan'
 import styled, { keyframes } from 'styled-components';
-import { slideInRight, fadeIn } from 'react-animations';
+import { slideInRight } from 'react-animations';
 
 
 const slideInAnimation = keyframes`${slideInRight}`;
-const fadeInAnimation = keyframes`${fadeIn}`;
 
 const AnimationDiv = styled.div`
   animation: 1s ${slideInAnimation};
-`;
-
-const SloganDiv = styled.div`
-  animation: 2s ${fadeInAnimation};
 `;
 
 class FormSolicitant extends Component {
@@ -39,7 +35,7 @@ class FormSolicitant extends Component {
     this.setState({
       messageVisible: true
     })
-    setTimeout(() => { closeForm('solicitantBtn')}, 5000)
+    setTimeout(() => { closeForm('solicitantBtn')}, 6000)
   }
 
   render() {  
@@ -48,20 +44,10 @@ class FormSolicitant extends Component {
       <div>
         { messageVisible && 
           <div>
-            <div className="gif">
-              <Iframe url="https://giphy.com/embed/l4pTfx2qLszoacZRS"
-                width="480px"
-                height="480px"
-                id="myId"
-                className="myClassname"
-                display="initial"
-                frameBorder="0"
-                position="relative"
-                /> 
-            </div>
-            <SloganDiv className='slogan'>
-            <h2>Goed gedaan !</h2>
-            </SloganDiv> 
+            <Gif/>
+            <Slogan>
+              <h2>Solicitant created !</h2>
+            </Slogan>
           </div>
         }
         { !messageVisible && 
