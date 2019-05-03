@@ -1,8 +1,7 @@
 import React from 'react'
 import FormOptions from './Options/FormOptions'
 import { withRouter } from 'react-router-dom'
-import * as apiLead from '../Api/leads'
-import * as apiSolicitant from '../Api/solicitant'
+import webtolead from '../Api/webtolead'
 import './Form.scss'
 
 class Form extends React.Component {
@@ -28,7 +27,7 @@ class Form extends React.Component {
     obj.RegioId__c = user.regioID
     obj.KantoorId__c = user.sf_id
     obj.company = user.name
-    apiLead.postLead(obj)
+    webtolead.postLead(obj)
   }
 
   createSolicitant = async (obj) => {
@@ -36,7 +35,7 @@ class Form extends React.Component {
     obj.KantoorId__c = user.sf_id
     obj.company = user.name
     obj.RegioId__c = user.regioID
-    apiSolicitant.postSolicitant(obj)
+    webtolead.postSolicitant(obj)
   }
 
   render() {
