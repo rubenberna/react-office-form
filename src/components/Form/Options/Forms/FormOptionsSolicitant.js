@@ -4,13 +4,18 @@ import '../../Form.scss'
 import dbOffices from '../../../db/dboffices'
 import Iframe from 'react-iframe'
 import styled, { keyframes } from 'styled-components';
-import { slideInRight } from 'react-animations';
+import { slideInRight, fadeIn } from 'react-animations';
 
 
 const slideInAnimation = keyframes`${slideInRight}`;
+const fadeInAnimation = keyframes`${fadeIn}`;
 
 const AnimationDiv = styled.div`
   animation: 1s ${slideInAnimation};
+`;
+
+const SloganDiv = styled.div`
+  animation: 2s ${fadeInAnimation};
 `;
 
 class FormSolicitant extends Component {
@@ -34,7 +39,7 @@ class FormSolicitant extends Component {
     this.setState({
       messageVisible: true
     })
-    setTimeout(() => { closeForm('solicitantBtn')}, 10000)
+    setTimeout(() => { closeForm('solicitantBtn')}, 5000)
   }
 
   render() {  
@@ -42,16 +47,21 @@ class FormSolicitant extends Component {
     return (
       <div>
         { messageVisible && 
-          <div className="gif">
-            <Iframe url="https://giphy.com/embed/l4pTfx2qLszoacZRS"
-              width="480px"
-              height="480px"
-              id="myId"
-              className="myClassname"
-              display="initial"
-              frameBorder="0"
-              position="relative"
-               /> 
+          <div>
+            <div className="gif">
+              <Iframe url="https://giphy.com/embed/l4pTfx2qLszoacZRS"
+                width="480px"
+                height="480px"
+                id="myId"
+                className="myClassname"
+                display="initial"
+                frameBorder="0"
+                position="relative"
+                /> 
+            </div>
+            <SloganDiv className='slogan'>
+            <h2>Goed gedaan !</h2>
+            </SloganDiv> 
           </div>
         }
         { !messageVisible && 
