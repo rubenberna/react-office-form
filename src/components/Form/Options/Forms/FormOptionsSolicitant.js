@@ -45,14 +45,17 @@ class FormSolicitant extends Component {
     e.preventDefault();
     const { onFormSubmit, closeForm, closeError } = this.props
     onFormSubmit(this.state, 'solicitant')
-    this.setState({ loading: true })
+    this.setState({ 
+      loading: true,
+      disabled: true
+     })
     setTimeout(() => {
       this.setState({ loading: false })
       this.toggleGif()}, 1000 )
     setTimeout(() => { 
       closeForm('solicitantBtn')
       closeError()
-      }, 6000)
+      }, 3500)
   }
 
   render() {  
@@ -60,17 +63,9 @@ class FormSolicitant extends Component {
     const { error, closeError } = this.props
     return (
       <div>
-        { messageVisible && 
-          <div>
-            <Gif/>
-            <Slogan>
-              <h2>Solicitant created !</h2>
-            </Slogan>
-          </div>
-        }
-        { !messageVisible && !loading &&
+        { messageVisible && <CheckIcon/> }
+        {
           <AnimationDiv>
-            <CheckIcon/>
               <Form className='form-border' onSubmit={ this.handleSubmit }>
                   <h3>Nieuwe Solicitant</h3>
                   <Form.Group widths='equal'>
@@ -102,7 +97,7 @@ class FormSolicitant extends Component {
             <p>Please contact Red Carrots team</p>
           </NegativeMessage>
         }
-        { loading && <Loader/> }
+        { loading && <Loader className='loader-form' /> }
       </div>
     )
   }
