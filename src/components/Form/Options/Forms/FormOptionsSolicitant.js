@@ -32,7 +32,7 @@ class FormSolicitant extends Component {
     })
   }
 
-  toggleGif = () => {
+  toggleSuccess = () => {
     const { error } = this.props
     if(!error) {
       this.setState({
@@ -51,7 +51,7 @@ class FormSolicitant extends Component {
      })
     setTimeout(() => {
       this.setState({ loading: false })
-      this.toggleGif()}, 1000 )
+      this.toggleSuccess()}, 1000 )
     setTimeout(() => { 
       closeForm('solicitantBtn')
       closeError()
