@@ -55,7 +55,7 @@ class FormSolicitant extends Component {
     setTimeout(() => { 
       closeForm('solicitantBtn')
       closeError()
-      }, 3500)
+      }, 4500)
   }
 
   render() {  
