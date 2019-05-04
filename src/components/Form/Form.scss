@@ -1,11 +1,17 @@
 .form-options {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   min-height: 85vh;
 
   .form-options-selected {
     width: 65%;
+  }
+
+  .form-options-buttons {
+    position: absolute;
+    left: 18vw;
+    top: 50vh;
   }
 
   .form-border {
