@@ -46,8 +46,8 @@ const availabilityKlant = [
 ]
 
 const languages = [
-  { key: 'n', text: 'Nederlands', value: 'Nederlands' },
-  { key: 'f', text: 'Frans', value: 'Frans' },
+  { key: 'n', text: 'Nederlands', value: 'nl' },
+  { key: 'f', text: 'Frans', value: 'fr' },
 ]
 
 const originSolicitant = [
