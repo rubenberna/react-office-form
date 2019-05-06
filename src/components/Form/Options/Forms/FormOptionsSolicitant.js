@@ -6,7 +6,6 @@ import Gif from '../../../Layout/Animations/Gif'
 import Slogan from '../../../Layout/Animations/Slogan'
 import NegativeMessage from '../../../Layout/Message/NegativeMessage'
 import Loader from '../../../Layout/Loader/Loader'
-import CheckIcon from '../../../Layout/CheckIcon/CheckIcon'
 import styled, { keyframes } from 'styled-components';
 import { slideInRight } from 'react-animations';
 
