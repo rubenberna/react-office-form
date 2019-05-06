@@ -76,7 +76,7 @@ class FormKlant extends Component {
           <div>
             <Gif />
             <Slogan>
-              <h2>Lead created !</h2>
+            <h1 data-heading="YES"><span data-heading="YES">Yes</span></h1>
             </Slogan>
           </div>
         }

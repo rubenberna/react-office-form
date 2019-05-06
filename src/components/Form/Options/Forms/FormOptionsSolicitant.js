@@ -46,17 +46,14 @@ class FormSolicitant extends Component {
     e.preventDefault();
     const { onFormSubmit, closeForm, closeError } = this.props
     onFormSubmit(this.state, 'solicitant')
-    this.setState({ 
-      loading: true,
-      disabled: true
-     })
+    this.setState({ loading: true })
     setTimeout(() => {
       this.setState({ loading: false })
       this.toggleSuccess()}, 1000 )
     setTimeout(() => { 
       closeForm('solicitantBtn')
       closeError()
-      }, 4500)
+      }, 6000)
   }
 
   render() {  
@@ -64,8 +61,15 @@ class FormSolicitant extends Component {
     const { error, closeError } = this.props
     return (
       <div>
-        { messageVisible && <CheckIcon/> }
-        {
+        {messageVisible &&
+          <div>
+            <Gif />
+            <Slogan>
+              <h1 data-heading="YES"><span data-heading="YES">Yes</span></h1>
+            </Slogan>
+          </div>
+        }
+        {!messageVisible && !loading &&
           <AnimationDiv>
               <Form className='form-border' onSubmit={ this.handleSubmit }>
                   <h3>Nieuwe Solicitant</h3>
