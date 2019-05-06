@@ -24,7 +24,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "aws s3 cp --recursive ./build s3://easy-office-form"
+    "deploy": "aws s3 cp --recursive ./build s3://lead.easylifedc.be"
   },
   "eslintConfig": {
     "extends": "react-app"
