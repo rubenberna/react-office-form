@@ -6,6 +6,7 @@ import {
 import FormKlant from './Forms/FormOptionsKlant';
 import FormSolicitant from './Forms/FormOptionsSolicitant'
 import Tumbleweed from '../../Layout/Tumbleweed/Tumbleweed'
+import Placeholder from '../../Layout/Placeholder/Placeholder'
 
 class FormOptions extends React.Component {
   state = {
@@ -44,7 +45,7 @@ class FormOptions extends React.Component {
     const { klantBtn, solicitantBtn } = this.state
     if (klantBtn) return (<FormKlant onFormSubmit={ onFormSubmit } closeForm={ this.closeForm} error={ error } closeError={ closeError } />)
     else if (solicitantBtn) return (<FormSolicitant onFormSubmit={onFormSubmit} closeForm={this.closeForm} error={error} closeError={ closeError }/>)
-    else return (<Tumbleweed />)
+    else return (<Placeholder />)
   }
 
   render() {

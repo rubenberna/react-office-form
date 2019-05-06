@@ -15,7 +15,7 @@ const slideInAnimation = keyframes`${slideInRight}`;
 
 const AnimationDiv = styled.div`
   animation: 1s ${slideInAnimation};
-  background: aliceblue;
+  background: #F9FAFB;
 `;
 
 class FormSolicitant extends Component {
