@@ -8,7 +8,7 @@ import NegativeMessage from '../../../Layout/Message/NegativeMessage'
 import Loader from '../../../Layout/Loader/Loader'
 import styled, { keyframes } from 'styled-components';
 import { slideInRight } from 'react-animations';
-
+import { findCity } from '../../../Api/postcode'
 
 const slideInAnimation = keyframes`${slideInRight}`;
 
@@ -21,7 +21,9 @@ class FormSolicitant extends Component {
   state = {
     messageVisible: false,
     lead_source: null,
-    disabled: false
+    disabled: false,
+    cities: [],
+    loadingInput: false
   }
 
   handleInput = (name, event) => {
@@ -41,6 +43,27 @@ class FormSolicitant extends Component {
     }
   }
 
+  findCity = async (e) => {
+    let zip = e.target.value
+    this.setState({ zip: zip })
+    if (zip) {
+      this.setState({ loadingInput: true })
+      const res = await findCity(zip)
+      const list = res.map(city => {
+        return {
+          key: city.Postcode.naam_deelgemeente,
+          text: city.Postcode.naam_deelgemeente,
+          value: city.Postcode.naam_deelgemeente
+        }
+      }
+      )
+      this.setState({
+        cities: list
+      })
+      this.setState({ loadingInput: false })
+    }
+  }
+
   handleSubmit = async e => {
     e.preventDefault();
     const { onFormSubmit, closeForm, closeError } = this.props
@@ -56,7 +79,7 @@ class FormSolicitant extends Component {
   }
 
   render() {  
-    const { messageVisible, lead_source, loading, disabled } = this.state
+    const { messageVisible, lead_source, loading, disabled, cities, loadingInput } = this.state
     const { error, closeError } = this.props
     return (
       <div>
@@ -83,8 +106,8 @@ class FormSolicitant extends Component {
                   <Form.Group widths='equal'>
                     <Form.Input required disabled={ disabled } fluid label='Straat' placeholder='Straat' onChange= { e => this.handleInput('street', e) }/>
                     <Form.Input fluid disabled={ disabled } label='Box' placeholder='Box' onChange= { e => this.handleInput('Box__c', e) }/>
-                    <Form.Input required disabled={ disabled } fluid type="number" label='Postcode' placeholder='Postcode' onChange= { e => this.handleInput('zip', e) } />
-                    <Form.Input required disabled={ disabled } fluid label='Gemeente' placeholder='Gemeente' onChange= { e => this.handleInput('city', e) }/>
+                    <Form.Input required fluid label='Postcode' type='number' placeholder='Postcode' onChange={e => this.findCity(e)} />
+                    <Form.Select required loading={loadingInput} fluid label='Gemeente' options={cities} placeholder={cities.length > 0 ? 'selecteer' : 'geen resultaat'} onChange={e => this.setState({ city: e.target.innerText })} />
                   </Form.Group>
                   <Form.Select fluid disabled={ disabled } required label='Oorsprong' options={dbOffices.originSolicitant} placeholder='Collega' onChange= { e => this.setState({ lead_source: e.target.innerText }) }/>
                   {lead_source === 'Actie' && <Form.Group widths='equal'>
