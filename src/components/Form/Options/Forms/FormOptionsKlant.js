@@ -120,7 +120,7 @@ class FormKlant extends Component {
                 <Form.Input required fluid label='Straat' placeholder='Straat' onChange= { e => this.handleInput('street', e) }/>
                 <Form.Input fluid label='Box' placeholder='Box' onChange= { e => this.handleInput('Box__c', e) }/>
                 <Form.Input required fluid label='Postcode' type='number' placeholder='Postcode' onKeyUp={ e => this.findCity(e) }/>
-                <Form.Select required loading={loadingInput} fluid label='Gemeente' options={cities} placeholder='Selecteer' onChange={e => this.setState({ 'city': e.target.innerText })} />
+                <Form.Select required loading={loadingInput} fluid label='Gemeente' options={cities} placeholder={ cities.length > 0  ? 'selecteer' : 'geen resultaat'} onChange={e => this.setState({ 'city': e.target.innerText })} />
               </Form.Group>
               <Form.Input  required fluid label='Gewenst aantal uren (Per week)' placeholder='bv: 3' type='number' onChange= { e => this.handleInput('Gewenst_aantal_uren_per_week__c', e) }/>
               <Form.TextArea required label='Bijkomende info' placeholder='bv: heeft u huisdieren?' onChange= { e => this.handleInput('Wensen__c', e) }/>
