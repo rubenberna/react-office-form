@@ -88,7 +88,7 @@ class FormKlant extends Component {
               <Form.Group widths='equal'>
                 <Form.Input required fluid label='Voornaam' placeholder='Voornaam' onChange= { e => this.handleInput('first_name', e) }/>
                 <Form.Input required fluid label='Achternaam' placeholder='Achternaam' onChange= { e => this.handleInput('last_name', e)  }/>
-                <Form.Select required fluid label='Taal' options={ dbOffices.languages } placeholder= 'Taal' onChange= { e => this.setState({ language_lead__c: e.target.innerText }) }
+                <Form.Select required fluid label='Taal' options={ dbOffices.languages } placeholder= 'Taal' onChange= { e => console.log(e.target.innerText)}
                 />
               </Form.Group>
               <Form.Group widths='equal'>
