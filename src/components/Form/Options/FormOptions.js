@@ -5,7 +5,6 @@ import {
 } from 'semantic-ui-react';
 import FormKlant from './Forms/FormOptionsKlant';
 import FormSolicitant from './Forms/FormOptionsSolicitant'
-import Tumbleweed from '../../Layout/Tumbleweed/Tumbleweed'
 import Placeholder from '../../Layout/Placeholder/Placeholder'
 
 class FormOptions extends React.Component {
