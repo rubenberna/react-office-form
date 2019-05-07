@@ -9,7 +9,7 @@ import NegativeMessage from '../../../Layout/Message/NegativeMessage'
 import Loader from '../../../Layout/Loader/Loader'
 import styled, { keyframes } from 'styled-components';
 import { slideInRight } from 'react-animations';
-import zipFinder from '../../../Api/postcode'
+import { findCity } from '../../../Api/postcode'
 
 const slideInAnimation = keyframes`${slideInRight}`;
 
@@ -27,7 +27,9 @@ class FormKlant extends Component {
     Donderdagpicklist__c: 'Niet mogelijk',
     Vrijdagpicklist__c: 'Niet mogelijk',
     Zaterdagpicklist__c: 'Niet mogelijk',
-    lead_source: null
+    lead_source: null,
+    cities: [],
+    loadingInput: false
   }
 
   handleRadioChange = (e, { value }) => {
@@ -53,6 +55,24 @@ class FormKlant extends Component {
     }
   }
 
+  findCity = async (e) => {
+    let zip = e.target.value
+    if (zip) {
+      this.setState({ loadingInput: true })
+      const res = await findCity(zip)
+      const list = res.map(city => { return {
+        key: city.Postcode.naam_deelgemeente, 
+        text: city.Postcode.naam_deelgemeente, 
+        value: city.Postcode.naam_deelgemeente }
+        }
+      )
+      this.setState({
+        cities: list
+      })      
+      this.setState({ loadingInput: false })
+    }
+  }
+
   handleSubmit = async e => {
     e.preventDefault();
     const { onFormSubmit, closeForm, closeError } = this.props
@@ -69,7 +89,7 @@ class FormKlant extends Component {
   }
 
   render() {
-    const { Frequentie__c, messageVisible, lead_source, loading } = this.state
+    const { Frequentie__c, messageVisible, lead_source, loading, cities, loadingInput } = this.state
     const { error, closeError } = this.props
     return (
       <div>
@@ -77,7 +97,7 @@ class FormKlant extends Component {
           <div>
             <Gif />
             <Slogan>
-            <h1 data-heading="YES"><span data-heading="YES">Yes</span></h1>
+              <h1 data-heading="YES"><span data-heading="YES">Yes</span></h1>
             </Slogan>
           </div>
         }
@@ -89,7 +109,7 @@ class FormKlant extends Component {
               <Form.Group widths='equal'>
                 <Form.Input required fluid label='Voornaam' placeholder='Voornaam' onChange= { e => this.handleInput('first_name', e) }/>
                 <Form.Input required fluid label='Achternaam' placeholder='Achternaam' onChange= { e => this.handleInput('last_name', e)  }/>
-                <Form.Select required fluid label='Taal' options={ dbOffices.languages } placeholder= 'Taal' onChange= { e => console.log(e.target.innerText)}
+                <Form.Select required fluid label='Taal' options={ dbOffices.languages } placeholder= 'Taal' onChange= { e => this.setState({ 'language_lead__c': e.target.innerText}) }
                 />
               </Form.Group>
               <Form.Group widths='equal'>
@@ -99,8 +119,8 @@ class FormKlant extends Component {
               <Form.Group widths='equal'>
                 <Form.Input required fluid label='Straat' placeholder='Straat' onChange= { e => this.handleInput('street', e) }/>
                 <Form.Input fluid label='Box' placeholder='Box' onChange= { e => this.handleInput('Box__c', e) }/>
-                <Form.Input required fluid label='Postcode' type='number' placeholder='Postcode' onChange= { e => this.handleInput('zip', e) }/>
-                <Form.Input required fluid label='Gemeente' placeholder='Gemeente' onChange= { e => this.handleInput('city', e) }/>
+                <Form.Input required fluid label='Postcode' type='number' placeholder='Postcode' onKeyUp={ e => this.findCity(e) }/>
+                <Form.Select required loading={loadingInput} fluid label='Gemeente' options={cities} placeholder='Selecteer' onChange={e => this.setState({ 'city': e.target.innerText })} />
               </Form.Group>
               <Form.Input  required fluid label='Gewenst aantal uren (Per week)' placeholder='bv: 3' type='number' onChange= { e => this.handleInput('Gewenst_aantal_uren_per_week__c', e) }/>
               <Form.TextArea required label='Bijkomende info' placeholder='bv: heeft u huisdieren?' onChange= { e => this.handleInput('Wensen__c', e) }/>
