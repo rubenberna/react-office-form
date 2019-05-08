@@ -23,18 +23,14 @@ const offices = [
 
 const originKlant = [
   { key: '0', text: 'Prints', value: 'Prints' },
-  { key: '1', text: 'Telefoon', value: 'Telefoon' },
-  { key: '2', text: 'Gekoppeld', value: 'Gekoppeld' },
+  { key: '1', text: 'Google', value: 'Google' },
+  { key: '2', text: 'Actie', value: 'Actie' },
   { key: '3', text: 'Personeel', value: 'Personeel' },
   { key: '4', text: 'Mond aan mond', value: 'Mond aan mond' },
   { key: '5', text: 'Radio & televisie', value: 'Radio & televisie' },
   { key: '6', text: 'Strijk', value: 'Strijk' },
-  { key: '7', text: 'Tusci', value: 'Tusci' },
+  { key: '7', text: 'Facebook', value: 'Facebook' },
   { key: '8', text: 'Walk-in', value: 'PerWalk-insoneel' },
-  { key: '9', text: 'Easy Partner', value: 'Easy Partner' },
-  { key: '10', text: 'Facebook', value: 'Facebook' },
-  { key: '11', text: 'Actie', value: 'Actie' },
-  { key: '12', text: 'Andere', value: 'Andere' },
 ]
 
 const availabilityKlant = [
@@ -54,11 +50,11 @@ const originSolicitant = [
   { key: '0', text: 'VDAB', value: 'VDAB' },
   { key: '1', text: 'Collega', value: 'Collega' },
   { key: '2', text: 'Walk in', value: 'Walk in' },
-  { key: '3', text: 'EasyJobs', value: 'EasyJobs' },
-  { key: '4', text: 'JobsDate', value: 'JobsDate' },
+  { key: '3', text: 'Google', value: 'Google' },
+  { key: '4', text: 'JobDate', value: 'JobDate' },
   { key: '5', text: 'Mond aan mond', value: 'Mond aan mond' },
-  { key: '6', text: 'Radio &amp; televisie', value: 'Radio &amp; televisie' },
-  { key: '7', text: 'Easy Partner', value: 'Easy Partner' },
+  { key: '6', text: 'Radio & televisie', value: 'Radio & televisie' },
+  { key: '7', text: 'Indeed', value: 'Indeed' },
   { key: '8', text: 'Facebook', value: 'Facebook' },
   { key: '9', text: 'Actie', value: 'Actie' },
   { key: '10', text: 'SMS', value: 'SMS' },

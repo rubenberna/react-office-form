@@ -65,7 +65,7 @@ class FormOptions extends React.Component {
                 toggle active={solicitantBtn} 
                 value='solicitantBtn'
                 onClick={ e => this.handleClick(e)} >
-                Solicitant
+                Sollicitant
               </Button>
             </div>
           </div>
