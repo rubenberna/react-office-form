@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
-import { Form } from 'semantic-ui-react'
-import '../../Form.scss'
 import { withRouter } from 'react-router-dom'
+import { Form, Checkbox } from 'semantic-ui-react'
+import styled, { keyframes } from 'styled-components';
+
+import '../../Form.scss'
 import dbOffices from '../../../db/dboffices'
 import Gif from '../../../Layout/Animations/Gif'
 import Slogan from '../../../Layout/Animations/Slogan'
 import NegativeMessage from '../../../Layout/Message/NegativeMessage'
 import Loader from '../../../Layout/Loader/Loader'
-import styled, { keyframes } from 'styled-components';
 import { slideInRight } from 'react-animations';
 import { findCity } from '../../../Api/postcode'
 
@@ -20,7 +21,7 @@ const AnimationDiv = styled.div`
 
 class FormKlant extends Component {
   state = {
-    messageVisible: false, 
+    messageVisible: false,
     Maandagpicklist__c: 'Niet mogelijk',
     Dinsdagpicklist__c: 'Niet mogelijk',
     Woensdagpicklist__c: 'Niet mogelijk',
@@ -29,13 +30,18 @@ class FormKlant extends Component {
     Zaterdagpicklist__c: 'Niet mogelijk',
     lead_source: null,
     cities: [],
-    loadingInput: false
+    loadingInput: false,
+    strijk: false
   }
 
   handleRadioChange = (e, { value }) => {
-    this.setState({ 
+    this.setState({
       Frequentie__c: value
-     }) 
+     })
+  }
+
+  handleStrijkChange = () => {
+    this.setState({ strijk: !this.state.strijk })
   }
 
   handleInput = (name, event) => {
@@ -43,7 +49,7 @@ class FormKlant extends Component {
     change[name] = event.target.value
     this.setState({
       ...change
-    })    
+    })
   }
 
   toggleGif = () => {
@@ -62,14 +68,14 @@ class FormKlant extends Component {
       this.setState({ loadingInput: true })
       const res = await findCity(zip)
       const list = res.map(city => { return {
-        key: city.Postcode.naam_deelgemeente, 
-        text: city.Postcode.naam_deelgemeente, 
+        key: city.Postcode.naam_deelgemeente,
+        text: city.Postcode.naam_deelgemeente,
         value: city.Postcode.naam_deelgemeente }
         }
       )
       this.setState({
         cities: list
-      })      
+      })
       this.setState({ loadingInput: false })
     }
   }
@@ -104,7 +110,7 @@ class FormKlant extends Component {
         }
         { !messageVisible && !loading &&
           <AnimationDiv>
-            <Form className='form-border' 
+            <Form className='form-border'
                 onSubmit={ this.handleSubmit }>
               <h3>Nieuwe Klant</h3>
               <Form.Group widths='equal'>
@@ -123,7 +129,10 @@ class FormKlant extends Component {
                 <Form.Input required fluid label='Postcode' type='number' placeholder='Postcode' onChange={ e => this.findCity(e) }/>
                 <Form.Select required loading={loadingInput} fluid label='Gemeente' options={cities} placeholder={ cities.length > 0  ? 'selecteer' : 'geen resultaat'} onChange={e => this.setState({ city: e.target.innerText })} />
               </Form.Group>
-              <Form.Input  required fluid label='Gewenst aantal uren (Per week)' placeholder='bv: 3' type='number' onChange= { e => this.handleInput('Gewenst_aantal_uren_per_week__c', e) }/>
+              <Form.Group style={{ display: 'flex', alignItems: 'center' }} >
+                <Form.Input width={7} required fluid label='Gewenst aantal uren (Per week)' placeholder='bv: 3' type='number' onChange= { e => this.handleInput('Gewenst_aantal_uren_per_week__c', e) }/>
+                <Form.Field control={ Checkbox } label='Strijk' onChange={ this.handleStrijkChange }/>
+              </Form.Group>
               <Form.TextArea required label='Bijkomende info' placeholder='bv: heeft u huisdieren?' onChange= { e => this.handleInput('Wensen__c', e) }/>
               <Form.Group inline required>
                 <label>Hoevaak?</label>
@@ -169,7 +178,7 @@ class FormKlant extends Component {
           <NegativeMessage visible={ error } onClose={ closeError } >
             <span>Something went wrong :(</span>
             <p>Please contact Red Carrots team</p>
-          </NegativeMessage> 
+          </NegativeMessage>
         }
         {loading && <Loader />}
       </div>
