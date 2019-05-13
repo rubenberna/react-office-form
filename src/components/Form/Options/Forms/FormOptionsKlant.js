@@ -46,7 +46,11 @@ class FormKlant extends Component {
 
   handleInput = (name, event) => {
     let change = {}
-    change[name] = event.target.value
+    let inputValue = event.target.value
+    if (name === 'first_name' || 'last_name') {
+      inputValue = inputValue.charAt(0).toUpperCase() + inputValue.slice(1)
+    }
+    change[name] = inputValue
     this.setState({
       ...change
     })

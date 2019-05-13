@@ -28,7 +28,11 @@ class FormSolicitant extends Component {
 
   handleInput = (name, event) => {
     let change = {}
-    change[name] = event.target.value
+    let inputValue = event.target.value
+    if (name === 'first_name' || 'last_name') {
+      inputValue = inputValue.charAt(0).toUpperCase() + inputValue.slice(1)
+    }
+    change[name] = inputValue
     this.setState({
       ...change
     })
@@ -72,13 +76,13 @@ class FormSolicitant extends Component {
     setTimeout(() => {
       this.setState({ loading: false })
       this.toggleSuccess()}, 1000 )
-    setTimeout(() => { 
+    setTimeout(() => {
       closeForm('solicitantBtn')
       closeError()
       }, 6000)
   }
 
-  render() {  
+  render() {
     const { messageVisible, lead_source, loading, disabled, cities, loadingInput } = this.state
     const { error, closeError } = this.props
     return (
@@ -115,7 +119,7 @@ class FormSolicitant extends Component {
                     <Form.Input required disabled={ disabled } fluid label='Detail' placeholder='bv: 24 December' onChange={e => this.handleInput('DetailActie__c', e)} />
                   </Form.Group>}
                   <Form.Button color='orange'>Bevestigen</Form.Button>
-                </Form> 
+                </Form>
             </AnimationDiv>
         }
         {
