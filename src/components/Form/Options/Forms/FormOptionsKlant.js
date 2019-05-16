@@ -22,16 +22,30 @@ const AnimationDiv = styled.div`
 class FormKlant extends Component {
   state = {
     messageVisible: false,
+    cities: [],
+    loadingInput: false,
+    first_name: '',
+    last_name: '',
+    language_lead__c: '',
+    email: '',
+    mobile: '',
+    street: '',
+    Box__c: '',
+    zip: '',
+    city: '',
+    Gewenst_aantal_uren_per_week__c: '',
+    strijk: false,
+    Wensen__c: '',
+    Frequentie__c: '',
+    lead_source: null,
+    NaamActie__c: '',
+    DetailActie__c: '',
     Maandagpicklist__c: 'Niet mogelijk',
     Dinsdagpicklist__c: 'Niet mogelijk',
     Woensdagpicklist__c: 'Niet mogelijk',
     Donderdagpicklist__c: 'Niet mogelijk',
     Vrijdagpicklist__c: 'Niet mogelijk',
     Zaterdagpicklist__c: 'Niet mogelijk',
-    lead_source: null,
-    cities: [],
-    loadingInput: false,
-    strijk: false
   }
 
   handleRadioChange = (e, { value }) => {

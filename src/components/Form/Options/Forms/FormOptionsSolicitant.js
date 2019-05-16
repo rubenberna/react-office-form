@@ -23,7 +23,18 @@ class FormSolicitant extends Component {
     lead_source: null,
     disabled: false,
     cities: [],
-    loadingInput: false
+    loadingInput: false,
+    first_name: '',
+    last_name: '',
+    email: '',
+    mobile: '',
+    street: '',
+    Box__c: '',
+    zip: '',
+    city: '',
+    lead_source: '',
+    NaamActie__c: '',
+    DetailActie__c: ''
   }
 
   handleInput = (name, event) => {
@@ -48,11 +59,11 @@ class FormSolicitant extends Component {
   }
 
   findCity = async (e) => {
-    let zip = e.target.value
-    this.setState({ zip: zip })
-    if (zip) {
+    let zipInput = e.target.value
+    this.setState({ zip: zipInput })
+    if (zipInput) {
       this.setState({ loadingInput: true })
-      const res = await findCity(zip)
+      const res = await findCity(zipInput)
       const list = res.map(city => {
         return {
           key: city.Postcode.naam_deelgemeente,

@@ -17,12 +17,12 @@ class LoginContainer extends React.Component {
     const { history } = this.props
     const { onLoggedIn } = this.props
     const obj = offices.find( obj => obj.name === selected.office )    
-    
+
     if ( obj.password !== selected.password ) {
       this.setState({
         messageVisible: true
       })
-    } else { 
+    } else {
       onLoggedIn(obj)
       history.push('/')
     }
@@ -41,16 +41,16 @@ class LoginContainer extends React.Component {
     return comparison
   }
 
-  renderLoading() {    
-    const { offices } = this.state      
+  renderLoading() {
+    const { offices } = this.state
     if (!offices) return (<Loader/>)
     else return (
-      <LoginForm 
-        list={ offices } 
+      <LoginForm
+        list={ offices }
         onFormSubmit={this.validate}/>
       )
   }
-  
+
   closeMsg = () => {
     this.setState({
       messageVisible: false
@@ -62,10 +62,10 @@ class LoginContainer extends React.Component {
 
     return (
       <div className="login-container">
-        <NegativeMessage visible={ messageVisible } onClose={ this.closeMsg } > 
+        <NegativeMessage visible={ messageVisible } onClose={ this.closeMsg } >
           <span>Helaas pindakaas </span>
           <p>Je password is niet juist ingevuld !</p>
-        </NegativeMessage> 
+        </NegativeMessage>
         { this.renderLoading() }
       </div>
     )
@@ -73,4 +73,3 @@ class LoginContainer extends React.Component {
 }
 
 export default withRouter(LoginContainer);
-
