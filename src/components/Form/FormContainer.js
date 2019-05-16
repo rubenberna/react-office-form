@@ -1,12 +1,16 @@
 import React from 'react'
 import FormOptions from './Options/FormOptions'
 import { withRouter } from 'react-router-dom'
+
 import webtolead from '../Api/webtolead'
 import './Form.scss'
+import PositiveMessage from '../Layout/Message/PositiveMessage'
 
 class Form extends React.Component {
   state = {
-    error: false
+    error: false,
+    success: false,
+    name: null
   }
 
   renderOptions = () => {
@@ -36,21 +40,35 @@ class Form extends React.Component {
     obj.KantoorId__c = user.sf_id
     obj.company = user.name
     const post = await webtolead.postLead(obj)
-    if (post !== 200) this.setState({ error: post })  
+    if (post !== 200) this.setState({ error: post })
+    else {
+      this.setState({ success: true })
+      setTimeout(() => this.setState({ success: false }), 5000)
+    }
   }
 
   createSolicitant = async (obj) => {
     const { user } = this.props
+    this.setState({ name: `${obj.first_name} ${obj.last_name}` })
     obj.KantoorId__c = user.sf_id
     obj.company = user.name
     obj.RegioId__c = user.regioID
     const post = await webtolead.postSolicitant(obj)
     if (post !== 200) this.setState({ error: post})
+    else {
+      this.setState({ success: true })
+      setTimeout(() => this.setState({ success: false }), 5000)
+    }
   }
 
   render() {
     return (
       <div className="form">
+        { <PositiveMessage visible={ this.state.success }  >
+            <span>{ this.state.name }</span>
+            <p>Opgeslagen!</p>
+          </PositiveMessage>
+        }
         { this.renderOptions() }
       </div>
     )

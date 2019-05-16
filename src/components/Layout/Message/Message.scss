@@ -1,10 +1,12 @@
-.ui.attached.negative.message, .ui.negative.message {
+.ui.attached.negative.message, .ui.attached.info.message, .ui.negative.message, .ui.info.message {
   position: absolute;
   top: 3px;
   right: 30px;
   min-width: 218px;
 }
 
-.ui.attached.info.message, .ui.info.message  {
-  margin-bottom: 7px;
+.ui.floating.message {
+  min-width: 218px;
+  max-width: 400px;
+  float: right;
 }
