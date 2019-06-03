@@ -1,16 +1,16 @@
 import React, { Component } from 'react'
 import { Form } from 'semantic-ui-react'
+import { slideInUp } from 'react-animations';
+import styled, { keyframes } from 'styled-components';
+
 import '../../Form.scss'
+import { findCity } from '../../../Api/postcode'
 import dbOffices from '../../../db/dboffices'
-import Gif from '../../../Layout/Animations/Gif'
-import Slogan from '../../../Layout/Animations/Slogan'
+import CheckIcon from '../../../Layout/CheckIcon/CheckIcon'
 import NegativeMessage from '../../../Layout/Message/NegativeMessage'
 import Loader from '../../../Layout/Loader/Loader'
-import styled, { keyframes } from 'styled-components';
-import { slideInRight } from 'react-animations';
-import { findCity } from '../../../Api/postcode'
 
-const slideInAnimation = keyframes`${slideInRight}`;
+const slideInAnimation = keyframes`${slideInUp}`;
 
 const AnimationDiv = styled.div`
   animation: 1s ${slideInAnimation};
@@ -32,7 +32,6 @@ class FormSolicitant extends Component {
     Box__c: '',
     zip: '',
     city: '',
-    lead_source: '',
     NaamActie__c: '',
     DetailActie__c: ''
   }
@@ -83,7 +82,10 @@ class FormSolicitant extends Component {
     e.preventDefault();
     const { onFormSubmit, closeForm, closeError } = this.props
     onFormSubmit(this.state, 'solicitant')
-    this.setState({ loading: true })
+    this.setState({ 
+      loading: true,
+      disabled: true
+     })
     setTimeout(() => {
       this.setState({ loading: false })
       this.toggleSuccess()}, 1000 )
@@ -98,15 +100,8 @@ class FormSolicitant extends Component {
     const { error, closeError } = this.props
     return (
       <div>
-        {messageVisible &&
-          <div>
-            <Gif />
-            <Slogan>
-              <h1 data-heading="YES"><span data-heading="YES">Yes</span></h1>
-            </Slogan>
-          </div>
-        }
-        {!messageVisible && !loading &&
+        {messageVisible && <CheckIcon />}
+        {
           <AnimationDiv>
               <Form className='form-border' onSubmit={ this.handleSubmit }>
                   <h3>Nieuwe Solicitant</h3>
@@ -121,8 +116,8 @@ class FormSolicitant extends Component {
                   <Form.Group widths='equal'>
                     <Form.Input required disabled={ disabled } fluid label='Straat' placeholder='Straat' onChange= { e => this.handleInput('street', e) }/>
                     <Form.Input fluid disabled={ disabled } label='Box' placeholder='Box' onChange= { e => this.handleInput('Box__c', e) }/>
-                    <Form.Input required fluid label='Postcode' type='number' placeholder='Postcode' onChange={e => this.findCity(e)} />
-                    <Form.Select required loading={loadingInput} fluid label='Gemeente' options={cities} placeholder={cities.length > 0 ? 'selecteer' : 'geen resultaat'} onChange={e => this.setState({ city: e.target.innerText })} />
+                    <Form.Input required disabled={ disabled } fluid label='Postcode' type='number' placeholder='Postcode' onChange={e => this.findCity(e)} />
+                    <Form.Select required disabled={ disabled } loading={loadingInput} fluid label='Gemeente' options={cities} placeholder={cities.length > 0 ? 'selecteer' : 'geen resultaat'} onChange={e => this.setState({ city: e.target.innerText })} />
                   </Form.Group>
                   <Form.Select fluid disabled={ disabled } required label='Oorsprong' options={dbOffices.originSolicitant} placeholder='Collega' onChange= { e => this.setState({ lead_source: e.target.innerText }) }/>
                   {lead_source === 'Actie' && <Form.Group widths='equal'>

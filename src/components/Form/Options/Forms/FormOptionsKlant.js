@@ -5,8 +5,7 @@ import styled, { keyframes } from 'styled-components';
 
 import '../../Form.scss'
 import dbOffices from '../../../db/dboffices'
-import Gif from '../../../Layout/Animations/Gif'
-import Slogan from '../../../Layout/Animations/Slogan'
+import CheckIcon from '../../../Layout/CheckIcon/CheckIcon'
 import NegativeMessage from '../../../Layout/Message/NegativeMessage'
 import Loader from '../../../Layout/Loader/Loader'
 import { slideInRight } from 'react-animations';
@@ -24,6 +23,7 @@ class FormKlant extends Component {
     messageVisible: false,
     cities: [],
     loadingInput: false,
+    disabled: false,
     first_name: '',
     last_name: '',
     language_lead__c: '',
@@ -102,7 +102,10 @@ class FormKlant extends Component {
     e.preventDefault();
     const { onFormSubmit, closeForm, closeError } = this.props
     onFormSubmit(this.state, 'lead')
-    this.setState({ loading: true })
+    this.setState({ 
+      loading: true,
+      disabled: true
+   })
     setTimeout(() => {
       this.setState({ loading: false })
       this.toggleGif()
@@ -114,79 +117,75 @@ class FormKlant extends Component {
   }
 
   render() {
-    const { Frequentie__c, messageVisible, lead_source, loading, cities, loadingInput } = this.state
+    const { Frequentie__c, messageVisible, lead_source, loading, cities, loadingInput, disabled } = this.state
     const { error, closeError } = this.props
     return (
       <div>
-        {messageVisible &&
-          <div>
-            <Gif />
-            <Slogan>
-              <h1 data-heading="YES"><span data-heading="YES">Yes</span></h1>
-            </Slogan>
-          </div>
-        }
-        { !messageVisible && !loading &&
+        { messageVisible && <CheckIcon /> }
+        {
           <AnimationDiv>
             <Form className='form-border'
                 onSubmit={ this.handleSubmit }>
               <h3>Nieuwe Klant</h3>
               <Form.Group widths='equal'>
-                <Form.Input required fluid label='Voornaam' placeholder='Voornaam' onChange= { e => this.handleInput('first_name', e) }/>
-                <Form.Input required fluid label='Achternaam' placeholder='Achternaam' onChange= { e => this.handleInput('last_name', e)  }/>
-                <Form.Select required fluid label='Taal' options={ dbOffices.languages } placeholder= 'Taal' onChange= { e => this.setState({ 'language_lead__c': e.target.innerText}) }
+                <Form.Input required fluid disabled={disabled} label='Voornaam' placeholder='Voornaam' onChange= { e => this.handleInput('first_name', e) }/>
+                <Form.Input required fluid disabled={disabled} label='Achternaam' placeholder='Achternaam' onChange= { e => this.handleInput('last_name', e)  }/>
+                <Form.Select required fluid disabled={ disabled } label='Taal' options={ dbOffices.languages } placeholder= 'Taal' onChange= { e => this.setState({ 'language_lead__c': e.target.innerText}) }
                 />
               </Form.Group>
               <Form.Group widths='equal'>
-                <Form.Input fluid label='E-mail' placeholder='E-mail' type="email" onChange= { e => this.handleInput('email', e) }/>
-                <Form.Input required fluid label='GSM-Nummer' placeholder='GSM-Nummer' type="number" onChange= { e => this.handleInput('mobile', e) }/>
+                <Form.Input fluid disabled={ disabled } label='E-mail' placeholder='E-mail' type="email" onChange= { e => this.handleInput('email', e) }/>
+                <Form.Input required fluid disabled={disabled} label='GSM-Nummer' placeholder='GSM-Nummer' type="number" onChange= { e => this.handleInput('mobile', e) }/>
               </Form.Group>
               <Form.Group widths='equal'>
-                <Form.Input required fluid label='Straat' placeholder='Straat' onChange= { e => this.handleInput('street', e) }/>
-                <Form.Input fluid label='Box' placeholder='Box' onChange= { e => this.handleInput('Box__c', e) }/>
-                <Form.Input required fluid label='Postcode' type='number' placeholder='Postcode' onChange={ e => this.findCity(e) }/>
-                <Form.Select required loading={loadingInput} fluid label='Gemeente' options={cities} placeholder={ cities.length > 0  ? 'selecteer' : 'geen resultaat'} onChange={e => this.setState({ city: e.target.innerText })} />
+                <Form.Input required fluid disabled={ disabled } label='Straat' placeholder='Straat' onChange= { e => this.handleInput('street', e) }/>
+                <Form.Input fluid disabled={ disabled } label='Box' placeholder='Box' onChange= { e => this.handleInput('Box__c', e) }/>
+                <Form.Input required fluid disabled={ disabled } label='Postcode' type='number' placeholder='Postcode' onChange={ e => this.findCity(e) }/>
+                <Form.Select required disabled={ disabled } loading={loadingInput} fluid label='Gemeente' options={cities} placeholder={ cities.length > 0  ? 'selecteer' : 'geen resultaat'} onChange={e => this.setState({ city: e.target.innerText })} />
               </Form.Group>
               <Form.Group style={{ display: 'flex', alignItems: 'center' }} >
-                <Form.Input width={7} required fluid label='Gewenst aantal uren (Per week)' placeholder='bv: 3' type='number' onChange= { e => this.handleInput('Gewenst_aantal_uren_per_week__c', e) }/>
-                <Form.Field control={ Checkbox } label='Strijk' onChange={ this.handleStrijkChange }/>
+                <Form.Input width={7} required disabled={ disabled } fluid label='Gewenst aantal uren (Per week)' placeholder='bv: 3' type='number' onChange= { e => this.handleInput('Gewenst_aantal_uren_per_week__c', e) }/>
+                <Form.Field control={ Checkbox } disabled={ disabled } label='Strijk' onChange={ this.handleStrijkChange }/>
               </Form.Group>
-              <Form.TextArea required label='Bijkomende info' placeholder='bv: heeft u huisdieren?' onChange= { e => this.handleInput('Wensen__c', e) }/>
-              <Form.Group inline required>
+              <Form.TextArea required disabled={ disabled } label='Bijkomende info' placeholder='bv: heeft u huisdieren?' onChange= { e => this.handleInput('Wensen__c', e) }/>
+              <Form.Group inline required >
                 <label>Hoevaak?</label>
                 <Form.Radio
                   label='Wekelijks'
                   value='Wekelijks'
                   checked={ Frequentie__c === 'Wekelijks'}
                   onChange={this.handleRadioChange}
+                  disabled={disabled}
                 />
                 <Form.Radio
                   label='Niet geweten'
                   value='Niet geweten'
                   checked={ Frequentie__c === 'Niet geweten'}
                   onChange={this.handleRadioChange}
+                  disabled={ disabled }
                 />
                 <Form.Radio
                   label='Tweewekelijks'
                   value='Tweewekelijks'
                   checked={ Frequentie__c === 'Tweewekelijks'}
                   onChange={this.handleRadioChange}
+                  disabled={disabled}
                 />
               </Form.Group>
               <Form.Group widths='equal'>
-                <Form.Select fluid label='Maandag' defaultValue="Niet mogelijk" options={dbOffices.availabilityKlant} placeholder='Niet mogelijk' onChange= { e => this.setState({ 'Maandagpicklist__c': e.target.innerText }) }/>
-                <Form.Select fluid label='Dinsdag' defaultValue="Niet mogelijk" options={dbOffices.availabilityKlant} placeholder='Niet mogelijk' onChange= { e => this.setState({ 'Dinsdagpicklist__c': e.target.innerText }) }/>
-                <Form.Select fluid label='Woensdag' defaultValue="Niet mogelijk" options={dbOffices.availabilityKlant} placeholder='Niet mogelijk' onChange= { e => this.setState({ Woensdagpicklist__c: e.target.innerText }) }/>
+                <Form.Select fluid disabled={ disabled } label='Maandag' defaultValue="Niet mogelijk" options={dbOffices.availabilityKlant} placeholder='Niet mogelijk' onChange= { e => this.setState({ 'Maandagpicklist__c': e.target.innerText }) }/>
+                <Form.Select fluid disabled={ disabled } label='Dinsdag' defaultValue="Niet mogelijk" options={dbOffices.availabilityKlant} placeholder='Niet mogelijk' onChange= { e => this.setState({ 'Dinsdagpicklist__c': e.target.innerText }) }/>
+                <Form.Select fluid disabled={ disabled } label='Woensdag' defaultValue="Niet mogelijk" options={dbOffices.availabilityKlant} placeholder='Niet mogelijk' onChange= { e => this.setState({ Woensdagpicklist__c: e.target.innerText }) }/>
               </Form.Group>
               <Form.Group widths='equal'>
-                <Form.Select fluid label='Donderdag' defaultValue="Niet mogelijk" options={dbOffices.availabilityKlant} placeholder='Niet mogelijk' onChange= { e => this.setState({ 'Donderdagpicklist__c': e.target.innerText }) }/>
-                <Form.Select fluid label='Vrijdag' defaultValue="Niet mogelijk" options={dbOffices.availabilityKlant} placeholder='Niet mogelijk' onChange= { e => this.setState({ 'Vrijdagpicklist__c': e.target.innerText }) }/>
-                <Form.Select fluid label='Zaterdag' defaultValue="Niet mogelijk" options={dbOffices.availabilityKlant} placeholder='Niet mogelijk' onChange= { e => this.setState({ 'Zaterdagpicklist__c': e.target.innerText }) }/>
+                <Form.Select fluid disabled={ disabled } label='Donderdag' defaultValue="Niet mogelijk" options={dbOffices.availabilityKlant} placeholder='Niet mogelijk' onChange= { e => this.setState({ 'Donderdagpicklist__c': e.target.innerText }) }/>
+                <Form.Select fluid disabled={ disabled } label='Vrijdag' defaultValue="Niet mogelijk" options={dbOffices.availabilityKlant} placeholder='Niet mogelijk' onChange= { e => this.setState({ 'Vrijdagpicklist__c': e.target.innerText }) }/>
+                <Form.Select fluid disabled={ disabled } label='Zaterdag' defaultValue="Niet mogelijk" options={dbOffices.availabilityKlant} placeholder='Niet mogelijk' onChange= { e => this.setState({ 'Zaterdagpicklist__c': e.target.innerText }) }/>
               </Form.Group>
-              <Form.Select fluid required label='Oorsprong' options={dbOffices.originKlant} placeholder='Telefoon' onChange= { e => this.setState({ lead_source: e.target.innerText }) }/>
+              <Form.Select fluid disabled={ disabled } required label='Oorsprong' options={dbOffices.originKlant} placeholder='Telefoon' onChange= { e => this.setState({ lead_source: e.target.innerText }) }/>
               {lead_source === 'Actie' && <Form.Group widths='equal'>
-                <Form.Input required fluid label='Name' placeholder='bv: Kerstmis' onChange={e => this.handleInput('NaamActie__c', e)} />
-                <Form.Input required fluid label='Detail' placeholder='bv: 24 December' onChange={e => this.handleInput('DetailActie__c', e)} />
+                <Form.Input required fluid disabled={ disabled } label='Name' placeholder='bv: Kerstmis' onChange={e => this.handleInput('NaamActie__c', e)} />
+                <Form.Input required fluid disabled={ disabled } label='Detail' placeholder='bv: 24 December' onChange={e => this.handleInput('DetailActie__c', e)} />
               </Form.Group> }
               <Form.Button type="submit" name="submit" color='orange'>Bevestigen</Form.Button>
             </Form>

@@ -36,13 +36,14 @@ class Form extends React.Component {
 
   createLead = async (obj) => {
     const { user } = this.props
+    this.setState({ name: `${obj.first_name} ${obj.last_name}` })
     obj.RegioId__c = user.regioID
     obj.KantoorId__c = user.sf_id
     obj.company = user.name
     const post = await webtolead.postLead(obj)
     if (post !== 200) this.setState({ error: post })
     else {
-      this.setState({ success: true })
+      setTimeout(() => this.setState({ success: true }), 1000)
       setTimeout(() => this.setState({ success: false }), 5000)
     }
   }
@@ -56,7 +57,7 @@ class Form extends React.Component {
     const post = await webtolead.postSolicitant(obj)
     if (post !== 200) this.setState({ error: post})
     else {
-      this.setState({ success: true })
+      setTimeout(() => this.setState({ success: true }), 1000)  
       setTimeout(() => this.setState({ success: false }), 5000)
     }
   }
