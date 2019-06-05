@@ -24,6 +24,9 @@ class FormKlant extends Component {
     cities: [],
     loadingInput: false,
     disabled: false,
+    originError: null,
+    cityError: null,
+    langError: null,
     first_name: '',
     last_name: '',
     language_lead__c: '',
@@ -37,7 +40,7 @@ class FormKlant extends Component {
     strijk: false,
     Wensen__c: '',
     Frequentie__c: '',
-    lead_source: null,
+    lead_source: '',
     NaamActie__c: '',
     DetailActie__c: '',
     Maandagpicklist__c: 'Niet mogelijk',
@@ -68,6 +71,13 @@ class FormKlant extends Component {
     this.setState({
       ...change
     })
+  }
+
+  clearFieldError = (stateField) => {
+    const change = {}
+    change[stateField] = false
+    this.setState({ 
+      ...change })
   }
 
   toggleGif = () => {
@@ -101,23 +111,30 @@ class FormKlant extends Component {
   handleSubmit = async e => {
     e.preventDefault();
     const { onFormSubmit, closeForm, closeError } = this.props
-    onFormSubmit(this.state, 'lead')
-    this.setState({ 
-      loading: true,
-      disabled: true
-   })
-    setTimeout(() => {
-      this.setState({ loading: false })
-      this.toggleGif()
-    }, 1000)
-    setTimeout(() => {
-      closeForm('klantBtn')
-      closeError()
-    }, 6000)
+    const { lead_source, city, language_lead__c } = this.state
+
+    if (!language_lead__c) this.setState({ langError: true })
+    else if (!city) this.setState({ cityError: true })
+    else if (!lead_source) this.setState({ originError: true })
+    else {
+      onFormSubmit(this.state, 'lead')
+      this.setState({ 
+        loading: true,
+        disabled: true
+     })
+      setTimeout(() => {
+        this.setState({ loading: false })
+        this.toggleGif()
+      }, 1000)
+      setTimeout(() => {
+        closeForm('klantBtn')
+        closeError()
+      }, 6000)
+    }
   }
 
   render() {
-    const { Frequentie__c, messageVisible, lead_source, loading, cities, loadingInput, disabled } = this.state
+    const { Frequentie__c, messageVisible, lead_source, loading, cities, loadingInput, disabled, cityError, originError, langError } = this.state
     const { error, closeError } = this.props
     return (
       <div>
@@ -130,7 +147,7 @@ class FormKlant extends Component {
               <Form.Group widths='equal'>
                 <Form.Input required fluid disabled={disabled} label='Voornaam' placeholder='Voornaam' onChange= { e => this.handleInput('first_name', e) }/>
                 <Form.Input required fluid disabled={disabled} label='Achternaam' placeholder='Achternaam' onChange= { e => this.handleInput('last_name', e)  }/>
-                <Form.Select required fluid disabled={ disabled } label='Taal' options={ dbOffices.languages } placeholder= 'Taal' onChange= { e => this.setState({ 'language_lead__c': e.target.innerText}) }
+                <Form.Select required fluid disabled={ disabled } error={ langError } label='Taal' options={ dbOffices.languages } placeholder= 'Taal' onFocus={ e => this.clearFieldError('langError') } onChange= { e => this.setState({ 'language_lead__c': e.target.innerText}) }
                 />
               </Form.Group>
               <Form.Group widths='equal'>
@@ -141,7 +158,7 @@ class FormKlant extends Component {
                 <Form.Input required fluid disabled={ disabled } label='Straat' placeholder='Straat' onChange= { e => this.handleInput('street', e) }/>
                 <Form.Input fluid disabled={ disabled } label='Box' placeholder='Box' onChange= { e => this.handleInput('Box__c', e) }/>
                 <Form.Input required fluid disabled={ disabled } label='Postcode' type='number' placeholder='Postcode' onChange={ e => this.findCity(e) }/>
-                <Form.Select required disabled={ disabled } loading={loadingInput} fluid label='Gemeente' options={cities} placeholder={ cities.length > 0  ? 'selecteer' : 'geen resultaat'} onChange={e => this.setState({ city: e.target.innerText })} />
+                <Form.Select required disabled={ disabled } error={ cityError } loading={loadingInput} fluid label='Gemeente' options={cities} placeholder={ cities.length > 0  ? 'selecteer' : 'geen resultaat'} onFocus={ e => this.clearFieldError('cityError') } onChange={e => this.setState({ city: e.target.innerText })} />
               </Form.Group>
               <Form.Group style={{ display: 'flex', alignItems: 'center' }} >
                 <Form.Input width={7} required disabled={ disabled } fluid label='Gewenst aantal uren (Per week)' placeholder='bv: 3' type='number' onChange= { e => this.handleInput('Gewenst_aantal_uren_per_week__c', e) }/>
@@ -182,7 +199,7 @@ class FormKlant extends Component {
                 <Form.Select fluid disabled={ disabled } label='Vrijdag' defaultValue="Niet mogelijk" options={dbOffices.availabilityKlant} placeholder='Niet mogelijk' onChange= { e => this.setState({ 'Vrijdagpicklist__c': e.target.innerText }) }/>
                 <Form.Select fluid disabled={ disabled } label='Zaterdag' defaultValue="Niet mogelijk" options={dbOffices.availabilityKlant} placeholder='Niet mogelijk' onChange= { e => this.setState({ 'Zaterdagpicklist__c': e.target.innerText }) }/>
               </Form.Group>
-              <Form.Select fluid disabled={ disabled } required label='Oorsprong' options={dbOffices.originKlant} placeholder='Telefoon' onChange= { e => this.setState({ lead_source: e.target.innerText }) }/>
+              <Form.Select fluid disabled={ disabled } error={ originError } required label='Oorsprong' options={dbOffices.originKlant} placeholder='Telefoon' onFocus={ e => this.clearFieldError('originError') } onChange= { e => this.setState({ lead_source: e.target.innerText }) }/>
               {lead_source === 'Actie' && <Form.Group widths='equal'>
                 <Form.Input required fluid disabled={ disabled } label='Name' placeholder='bv: Kerstmis' onChange={e => this.handleInput('NaamActie__c', e)} />
                 <Form.Input required fluid disabled={ disabled } label='Detail' placeholder='bv: 24 December' onChange={e => this.handleInput('DetailActie__c', e)} />

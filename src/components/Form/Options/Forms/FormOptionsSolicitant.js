@@ -20,7 +20,9 @@ const AnimationDiv = styled.div`
 class FormSolicitant extends Component {
   state = {
     messageVisible: false,
-    lead_source: null,
+    originError: null,
+    cityError: null,
+    lead_source: '',
     disabled: false,
     cities: [],
     loadingInput: false,
@@ -46,6 +48,13 @@ class FormSolicitant extends Component {
     this.setState({
       ...change
     })
+  }
+
+  clearFieldError = (stateField) => {
+    const change = {}
+    change[stateField] = false
+    this.setState({ 
+      ...change })
   }
 
   toggleSuccess = () => {
@@ -81,22 +90,28 @@ class FormSolicitant extends Component {
   handleSubmit = async e => {
     e.preventDefault();
     const { onFormSubmit, closeForm, closeError } = this.props
-    onFormSubmit(this.state, 'solicitant')
-    this.setState({ 
-      loading: true,
-      disabled: true
-     })
-    setTimeout(() => {
-      this.setState({ loading: false })
-      this.toggleSuccess()}, 1000 )
-    setTimeout(() => {
-      closeForm('solicitantBtn')
-      closeError()
-      }, 6000)
+    const { lead_source, city } = this.state
+
+    if (!city) this.setState({ cityError: true })
+    else if (!lead_source) this.setState({ originError: true })
+    else {
+      onFormSubmit(this.state, 'solicitant')
+      this.setState({ 
+        loading: true,
+        disabled: true
+       })
+      setTimeout(() => {
+        this.setState({ loading: false })
+        this.toggleSuccess()}, 1000 )
+      setTimeout(() => {
+        closeForm('solicitantBtn')
+        closeError()
+        }, 6000)
+    }
   }
 
   render() {
-    const { messageVisible, lead_source, loading, disabled, cities, loadingInput } = this.state
+    const { messageVisible, lead_source, loading, disabled, cities, loadingInput, cityError, originError } = this.state
     const { error, closeError } = this.props
     return (
       <div>
@@ -117,9 +132,9 @@ class FormSolicitant extends Component {
                     <Form.Input required disabled={ disabled } fluid label='Straat' placeholder='Straat' onChange= { e => this.handleInput('street', e) }/>
                     <Form.Input fluid disabled={ disabled } label='Box' placeholder='Box' onChange= { e => this.handleInput('Box__c', e) }/>
                     <Form.Input required disabled={ disabled } fluid label='Postcode' type='number' placeholder='Postcode' onChange={e => this.findCity(e)} />
-                    <Form.Select required disabled={ disabled } loading={loadingInput} fluid label='Gemeente' options={cities} placeholder={cities.length > 0 ? 'selecteer' : 'geen resultaat'} onChange={e => this.setState({ city: e.target.innerText })} />
+                    <Form.Select required disabled={ disabled } error={ cityError } loading={loadingInput} fluid label='Gemeente' options={cities} placeholder={cities.length > 0 ? 'selecteer' : 'geen resultaat'} onFocus={ e => this.clearFieldError('cityError') } onChange={e => this.setState({ city: e.target.innerText })} />
                   </Form.Group>
-                  <Form.Select fluid disabled={ disabled } required label='Oorsprong' options={dbOffices.originSolicitant} placeholder='Collega' onChange= { e => this.setState({ lead_source: e.target.innerText }) }/>
+              <Form.Select required fluid disabled={disabled} error={ originError } onFocus={ e => this.clearFieldError('originError') } label='Oorsprong' options={dbOffices.originSolicitant} placeholder='Collega' onChange= { e => this.setState({ lead_source: e.target.innerText }) }/>
                   {lead_source === 'Actie' && <Form.Group widths='equal'>
                     <Form.Input required disabled={ disabled } fluid label='Name' placeholder='bv: Kerstmis' onChange={e => this.handleInput('NaamActie__c', e)} />
                     <Form.Input required disabled={ disabled } fluid label='Detail' placeholder='bv: 24 December' onChange={e => this.handleInput('DetailActie__c', e)} />
