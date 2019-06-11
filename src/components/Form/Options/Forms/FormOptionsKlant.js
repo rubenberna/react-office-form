@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { Form, Checkbox } from 'semantic-ui-react'
 import styled, { keyframes } from 'styled-components';
+import { slideInRight } from 'react-animations';
 
 import '../../Form.scss'
 import dbOffices from '../../../db/dboffices'
 import CheckIcon from '../../../Layout/CheckIcon/CheckIcon'
 import NegativeMessage from '../../../Layout/Message/NegativeMessage'
 import Loader from '../../../Layout/Loader/Loader'
-import { slideInRight } from 'react-animations';
 import { findCity } from '../../../Api/postcode'
 
 const slideInAnimation = keyframes`${slideInRight}`;
@@ -76,7 +76,7 @@ class FormKlant extends Component {
   clearFieldError = (stateField) => {
     const change = {}
     change[stateField] = false
-    this.setState({ 
+    this.setState({
       ...change })
   }
 
@@ -118,7 +118,7 @@ class FormKlant extends Component {
     else if (!lead_source) this.setState({ originError: true })
     else {
       onFormSubmit(this.state, 'lead')
-      this.setState({ 
+      this.setState({
         loading: true,
         disabled: true
      })

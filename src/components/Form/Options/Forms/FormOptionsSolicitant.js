@@ -134,8 +134,8 @@ class FormSolicitant extends Component {
                     <Form.Input required disabled={ disabled } fluid label='Postcode' type='number' placeholder='Postcode' onChange={e => this.findCity(e)} />
                     <Form.Select required disabled={ disabled } error={ cityError } loading={loadingInput} fluid label='Gemeente' options={cities} placeholder={cities.length > 0 ? 'selecteer' : 'geen resultaat'} onFocus={ e => this.clearFieldError('cityError') } onChange={e => this.setState({ city: e.target.innerText })} />
                   </Form.Group>
-              <Form.Select required fluid disabled={disabled} error={ originError } onFocus={ e => this.clearFieldError('originError') } label='Oorsprong' options={dbOffices.originSolicitant} placeholder='Collega' onChange= { e => this.setState({ lead_source: e.target.innerText }) }/>
-                  {lead_source === 'Actie' && <Form.Group widths='equal'>
+                    <Form.Select required fluid disabled={disabled} error={ originError } onFocus={ e => this.clearFieldError('originError') } label='Oorsprong' options={dbOffices.originSolicitant} placeholder='Collega' onChange= { e => this.setState({ lead_source: e.target.innerText }) }/>
+                        {lead_source === 'Actie' && <Form.Group widths='equal'>
                     <Form.Input required disabled={ disabled } fluid label='Name' placeholder='bv: Kerstmis' onChange={e => this.handleInput('NaamActie__c', e)} />
                     <Form.Input required disabled={ disabled } fluid label='Detail' placeholder='bv: 24 December' onChange={e => this.handleInput('DetailActie__c', e)} />
                   </Form.Group>}
