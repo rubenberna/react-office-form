@@ -40,6 +40,8 @@ class Form extends React.Component {
     obj.RegioId__c = user.regioID
     obj.KantoorId__c = user.sf_id
     obj.company = user.name
+    console.log(obj);
+    
     const post = await webtolead.postLead(obj)
     if (post !== 200) this.setState({ error: post })
     else {

@@ -147,7 +147,7 @@ class FormKlant extends Component {
               <Form.Group widths='equal'>
                 <Form.Input required fluid disabled={disabled} label='Voornaam' placeholder='Voornaam' onChange= { e => this.handleInput('first_name', e) }/>
                 <Form.Input required fluid disabled={disabled} label='Achternaam' placeholder='Achternaam' onChange= { e => this.handleInput('last_name', e)  }/>
-                <Form.Select required fluid disabled={ disabled } error={ langError } label='Taal' options={ dbOffices.languages } placeholder= 'Taal' onFocus={ e => this.clearFieldError('langError') } onChange= { e => this.setState({ 'language_lead__c': e.target.innerText}) }
+                <Form.Select required fluid disabled={disabled} error={langError} label='Taal' options={dbOffices.languages} placeholder='Taal' onFocus={e => this.clearFieldError('langError')} onChange={e => e.target.innerText === 'Frans' ? this.setState({ 'language_lead__c': 'fr' }) : this.setState({ 'language_lead__c': 'nl' })}
                 />
               </Form.Group>
               <Form.Group widths='equal'>
