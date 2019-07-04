@@ -11,12 +11,18 @@
   .form-options-buttons {
     position: absolute;
     left: 18vw;
-    top: 50vh;
+    top: 30vh;
   }
 
   .form-border {
     border: 3px solid;
     padding: 25px;
+    margin: 30px 0;
+    color: white;
+
+    label {
+      color: white !important;
+    }
   }
 
   input[type=number]::-webkit-inner-spin-button,
@@ -30,4 +36,26 @@
   position: absolute;
   top: 50vh;
   left: 57vw;
+}
+
+.form-container {
+  position: relative;
+  min-height: 100vh;
+  margin-bottom: 60px;
+  margin-top: 60px;
+}
+
+.form-container::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: auto;
+  background-image: url('../../assets/img/back.svg');
+  background-size: cover !important;
+  min-height: 100%;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  filter: brightness(55%);
+  height: 68vh;
 }

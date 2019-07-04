@@ -40,7 +40,7 @@ class Form extends React.Component {
     obj.RegioId__c = user.regioID
     obj.KantoorId__c = user.sf_id
     obj.company = user.name
-    
+
     const post = await webtolead.postLead(obj)
     if (post !== 200) this.setState({ error: post })
     else {
@@ -58,14 +58,14 @@ class Form extends React.Component {
     const post = await webtolead.postSolicitant(obj)
     if (post !== 200) this.setState({ error: post})
     else {
-      setTimeout(() => this.setState({ success: true }), 1000)  
+      setTimeout(() => this.setState({ success: true }), 1000)
       setTimeout(() => this.setState({ success: false }), 5000)
     }
   }
 
   render() {
     return (
-      <div className="form">
+      <div className="form-container">
         { <PositiveMessage visible={ this.state.success }  >
             <span>{ this.state.name }</span>
             <p>Opgeslagen!</p>

@@ -15,7 +15,7 @@ class FormOptions extends React.Component {
 
   handleClick = e => {
     const buttons = this.state
-    let choice = e.target.value;    
+    let choice = e.target.value;
     let other;
     let change = {};
 
@@ -24,8 +24,8 @@ class FormOptions extends React.Component {
     })
 
     change[choice] = buttons[choice] === false ? true : false;
-    change[other] = false     
-    
+    change[other] = false
+
     this.setState({
       ...change
     })
@@ -53,16 +53,16 @@ class FormOptions extends React.Component {
       <Container>
         <div className="form-options">
           <div className="form-options-buttons">
-            <h3 style={{ textAlign: 'center' }}>Selecteer uw form</h3>
+            <h3 style={{ textAlign: 'center', color: 'white' }}>Selecteer uw form</h3>
             <div>
-              <Button 
-                toggle active={klantBtn} 
+              <Button
+                toggle active={klantBtn}
                 value='klantBtn'
                 onClick={ e => this.handleClick(e)} >
                 Klant
               </Button>
-              <Button 
-                toggle active={solicitantBtn} 
+              <Button
+                toggle active={solicitantBtn}
                 value='solicitantBtn'
                 onClick={ e => this.handleClick(e)} >
                 Sollicitant

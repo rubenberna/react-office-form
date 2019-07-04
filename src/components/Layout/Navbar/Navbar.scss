@@ -6,19 +6,19 @@
   margin-left: 135px;
   margin-right: 135px;
   margin-top: 20px;
-  
+
   .navbar-start {
     display: flex;
     width: 37%;
     align-items: center;
-    
+
     .navbar-logo {
       cursor: pointer;
     }
-    
+
     .navbar-greeting h2 {
       margin-left: 20px;
-      font-size: 36px;
+      font-size: 43px;
       font-family: 'Caveat', cursive;
     }
   }
@@ -29,7 +29,7 @@
   .hide {
     display: none;
   }
-  
+
   .show {
     display: block;
   }

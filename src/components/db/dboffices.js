@@ -20,6 +20,8 @@ const offices = [
   { key: '18', name: 'Wilrijk', password: 'Wilrijk01', regioID: '10001', sf_id: '0010Y00000ryjbxQAA', company: 'EasyLife'},
   { key: '19', name: 'Melle', password: 'Melle02', regioID: '30002', sf_id: '0010Y00000ryjboQAA', company: 'DILITO'},
   { key: '20', name: 'Dilbeek', password: 'Dilbeek11', regioID: '10011', sf_id: 'unknown', company: 'EasyLife'},
+  { key: '21', name: 'Sint-Niklaas', password: 'Sint-Niklaas04', regioID: '30004', sf_id: 'unknown', company: 'DILITO'},
+  { key: '22', name: 'Tervuren', password: 'Tervuren12', regioID: '10012', sf_id: 'unknown', company: 'EasyLife'},
 ]
 
 const originKlant = [
