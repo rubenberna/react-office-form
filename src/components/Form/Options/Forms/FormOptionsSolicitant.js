@@ -131,8 +131,8 @@ class FormSolicitant extends Component {
                   <Form.Group widths='equal'>
                     <Form.Input required disabled={ disabled } fluid label='Straat' placeholder='Straat' onChange= { e => this.handleInput('street', e) }/>
                     <Form.Input fluid disabled={ disabled } label='Box' placeholder='Box' onChange= { e => this.handleInput('Box__c', e) }/>
-                    <Form.Input required disabled={ disabled } fluid label='Postcode' type='number' placeholder='Postcode' onChange={e => this.findCity(e)} />
-                    <Form.Select required disabled={ disabled } error={ cityError } loading={loadingInput} fluid label='Gemeente' options={cities} placeholder={cities.length > 0 ? 'selecteer' : 'geen resultaat'} onFocus={ e => this.clearFieldError('cityError') } onChange={e => this.setState({ city: e.target.innerText })} />
+                    <Form.Input required fluid disabled={ disabled } label='Postcode' type='number' placeholder='Postcode' onChange={ e => this.handleInput('zip', e)  }/>
+                    <Form.Input required fluid disabled={ disabled } label='Gemeente' type='text' placeholder='Gemeente' onChange={ e => this.handleInput('city', e) }/>
                   </Form.Group>
                     <Form.Select required fluid disabled={disabled} error={ originError } onFocus={ e => this.clearFieldError('originError') } label='Oorsprong' options={dbOffices.originSolicitant} placeholder='Collega' onChange= { e => this.setState({ lead_source: e.target.innerText }) }/>
                         {lead_source === 'Actie' && <Form.Group widths='equal'>
@@ -156,3 +156,6 @@ class FormSolicitant extends Component {
 }
 
 export default FormSolicitant;
+
+{/* <Form.Input required disabled={ disabled } fluid label='Postcode' type='number' placeholder='Postcode' onChange={e => this.findCity(e)} />
+<Form.Select required disabled={ disabled } error={ cityError } loading={loadingInput} fluid label='Gemeente' options={cities} placeholder={cities.length > 0 ? 'selecteer' : 'geen resultaat'} onFocus={ e => this.clearFieldError('cityError') } onChange={e => this.setState({ city: e.target.innerText })} /> */}
