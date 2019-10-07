@@ -63,7 +63,7 @@ const originSolicitant = [
   { key: '9', text: 'Actie', value: 'Actie' },
   { key: '10', text: 'SMS', value: 'SMS' },
   { key: '11', text: 'Interim: Vivaldis', value: 'Interim: Vivaldis' },
-  { key: '12', text: 'Interim: Assap', value: 'Interim: Assap' },
+  { key: '12', text: 'Interim: Assap', value: 'Interim: Asap' },
   { key: '13', text: 'Interim: Adecco', value: 'Interim: Adecco' },
 ]
 
