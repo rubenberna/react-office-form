@@ -35,6 +35,9 @@ const originKlant = [
   { key: '6', text: 'Strijk', value: 'Strijk' },
   { key: '7', text: 'Facebook', value: 'Facebook' },
   { key: '8', text: 'Walk-in', value: 'PerWalk-insoneel' },
+  { key: '9', text: 'Interim: Vivaldis', value: 'Interim: Vivaldis' },
+  { key: '10', text: 'Interim: Assap', value: 'Interim: Assap' },
+  { key: '11', text: 'Interim: Adecco', value: 'Interim: Adecco' },
 ]
 
 const availabilityKlant = [
