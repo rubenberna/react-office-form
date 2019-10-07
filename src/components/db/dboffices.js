@@ -34,10 +34,7 @@ const originKlant = [
   { key: '5', text: 'Radio & televisie', value: 'Radio & televisie' },
   { key: '6', text: 'Strijk', value: 'Strijk' },
   { key: '7', text: 'Facebook', value: 'Facebook' },
-  { key: '8', text: 'Walk-in', value: 'PerWalk-insoneel' },
-  { key: '9', text: 'Interim: Vivaldis', value: 'Interim: Vivaldis' },
-  { key: '10', text: 'Interim: Assap', value: 'Interim: Assap' },
-  { key: '11', text: 'Interim: Adecco', value: 'Interim: Adecco' },
+  { key: '8', text: 'Walk-in', value: 'PerWalk-insoneel' }
 ]
 
 const availabilityKlant = [
@@ -65,6 +62,9 @@ const originSolicitant = [
   { key: '8', text: 'Facebook', value: 'Facebook' },
   { key: '9', text: 'Actie', value: 'Actie' },
   { key: '10', text: 'SMS', value: 'SMS' },
+  { key: '11', text: 'Interim: Vivaldis', value: 'Interim: Vivaldis' },
+  { key: '12', text: 'Interim: Assap', value: 'Interim: Assap' },
+  { key: '13', text: 'Interim: Adecco', value: 'Interim: Adecco' },
 ]
 
 export default {
