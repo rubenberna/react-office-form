@@ -8,7 +8,12 @@ import { Link } from 'react-router-dom'
 const Navbar = ({ office, onLogout }) => {
 
   const message = () => {
-    if(office) return (<h2>Hallo, {office.name}!</h2>)
+    if(office) return (
+      <div className='navbar-greeting-message'>
+        <h2>Hallo, {office.name}!</h2>
+        { office.type === 'strijk' && <h1 className='navbar-greeting-message-strijk'>strijk</h1>}
+      </div>
+    )
   };
 
   const renderButtons = () => {
