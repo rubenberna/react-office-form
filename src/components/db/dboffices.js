@@ -30,13 +30,13 @@ const strijkOffices = [
   { key: '1', name: 'Aalter', password: 'Aalter9880', type: 'strijk'},
   { key: '2', name: 'Borsbeek', password: 'Borsbeek2150', type: 'strijk'},
   { key: '3', name: 'Kontich', password: 'Kontich2550', type: 'strijk'},
-  { key: '4', name: 'Londerzeel', password: 'Berchem03', type: 'strijk'},
-  { key: '5', name: 'Maldegem', password: 'Berchem03', type: 'strijk'},
-  { key: '6', name: 'Middelkerke', password: 'Berchem03', type: 'strijk'},
-  { key: '7', name: 'Oostduinkerke', password: 'Berchem03', type: 'strijk'},
-  { key: '8', name: 'Oostkamp', password: 'Berchem03', type: 'strijk'},
-  { key: '9', name: 'Sint-Martens-Latem', password: 'Berchem03', type: 'strijk'},
-  { key: '10', name: 'Westmalle', password: 'Berchem03', type: 'strijk'},
+  { key: '4', name: 'Londerzeel', password: 'Londerzeel1840', type: 'strijk'},
+  { key: '5', name: 'Maldegem', password: 'Maldegem9990', type: 'strijk'},
+  { key: '6', name: 'Middelkerke', password: 'Middelkerke8430', type: 'strijk'},
+  { key: '7', name: 'Oostduinkerke', password: 'Oostduinkerke8670', type: 'strijk'},
+  { key: '8', name: 'Oostkamp', password: 'Oostkamp8020', type: 'strijk'},
+  { key: '9', name: 'Sint-Martens-Latem', password: 'Latem9830', type: 'strijk'},
+  { key: '10', name: 'Westmalle', password: 'Westmalle2390', type: 'strijk'},
 ]
 
 const originKlant = [
