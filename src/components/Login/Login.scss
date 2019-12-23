@@ -30,7 +30,7 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  text-transform: uppercase;
+  text-transform: capitalize;
 
   .login-switch-title {
     padding: 15px;
@@ -41,12 +41,14 @@
     justify-content: center;
     align-items: center;
     font-size: 37px;
+    background: #e0e0e0;
   }
 
   .login-switch-options {
     display: flex;
     width: 100%;
     height: 100%;
+    text-transform: uppercase;
 
     .login-switch-options-box {
       width: 50%;
