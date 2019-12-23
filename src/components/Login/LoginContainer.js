@@ -1,22 +1,27 @@
 import React from 'react';
-import './Login.scss';
-import LoginForm from './Form/LoginForm'
 import { withRouter } from 'react-router-dom'
+
+import db from '../db/dboffices'
+import './Login.scss';
+import LoginSwitch from './LoginSwitch'
+import LoginFormGewoon from './Form/LoginFormGewoon'
+import LoginFormStrijk from './Form/LoginFormStrijk'
 import Loader from '../Layout/Loader/Loader'
 import NegativeMessage from '../Layout/Message/NegativeMessage'
-import db from '../db/dboffices'
 
 class LoginContainer extends React.Component {
   state = {
     offices: db.offices.sort(this.compare),
-    messageVisible: false
+    strijkOffices: db.strijkOffices.sort(this.compare),
+    messageVisible: false,
+    selectedLogin: ''
   }
 
   validate = selected => {
-    const { offices } = this.state
-    const { history } = this.props
-    const { onLoggedIn } = this.props
-    const obj = offices.find( obj => obj.name === selected.office )    
+
+    const list = selected.type === 'gewoon' ? this.state.offices : this.state.strijkOffices
+    const { history, onLoggedIn } = this.props
+    const obj = list.find( obj => obj.name === selected.office )
 
     if ( obj.password !== selected.password ) {
       this.setState({
@@ -41,14 +46,17 @@ class LoginContainer extends React.Component {
     return comparison
   }
 
-  renderLoading() {
-    const { offices } = this.state
+  renderLogin() {
+    const { offices, selectedLogin, strijkOffices } = this.state
     if (!offices) return (<Loader/>)
-    else return (
-      <LoginForm
-        list={ offices }
-        onFormSubmit={this.validate}/>
-      )
+    else if (!selectedLogin) return <LoginSwitch selectLogin={this.selectLogin}/>
+    else if (selectedLogin === 'gewoon') return <LoginFormGewoon list={ offices } onFormSubmit={this.validate} />
+    else if (selectedLogin === 'strijk') return <LoginFormStrijk list={ strijkOffices } onFormSubmit={this.validate} />
+    else return <LoginSwitch selectLogin={this.selectLogin}/>
+  }
+
+  selectLogin = (name) => {
+    this.setState({ selectedLogin: name })
   }
 
   closeMsg = () => {
@@ -66,7 +74,7 @@ class LoginContainer extends React.Component {
           <span>Helaas pindakaas </span>
           <p>Je password is niet juist ingevuld !</p>
         </NegativeMessage>
-        { this.renderLoading() }
+        { this.renderLogin() }
       </div>
     )
   }

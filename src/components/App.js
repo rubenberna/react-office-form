@@ -11,12 +11,13 @@ class App extends React.Component {
 
   saveUser = user => {
     localStorage.setItem('user', JSON.stringify(user))
+    console.log(user);
     this.setState({
       user
     })
   }
 
-  logoutUser = () => {    
+  logoutUser = () => {
     localStorage.removeItem('user')
     this.setState({
       user: null
@@ -27,20 +28,20 @@ class App extends React.Component {
     return (
       <div>
         <BrowserRouter>
-          <Navbar 
-            office={ this.state.user } 
-            onLogout={ this.logoutUser } 
+          <Navbar
+            office={ this.state.user }
+            onLogout={ this.logoutUser }
             />
-          <Route 
-            path="/" 
+          <Route
+            path="/"
             exact
             render={ () => <FormContainer
             user={ this.state.user }
              />}
           />
-          <Route 
+          <Route
             path="/login"
-            render={() => <LoginContainer 
+            render={() => <LoginContainer
             onLoggedIn={ this.saveUser } />}
             />
         </BrowserRouter>
