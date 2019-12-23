@@ -16,10 +16,25 @@
       cursor: pointer;
     }
 
-    .navbar-greeting h2 {
-      margin-left: 20px;
-      font-size: 43px;
-      font-family: 'Caveat', cursive;
+    .navbar-greeting-message {
+      display: flex;
+      min-width: 400px;
+      justify-content: space-between;
+
+      h2 {
+        margin-left: 20px;
+        font-size: 43px;
+        font-family: 'Caveat', cursive;
+      }
+      .navbar-greeting-message-strijk {
+        color: #D23;
+        border: 0.5rem double #D23;
+        transform: rotate(17deg);
+        -webkit-mask-position: 2rem 3rem;
+        font-size: 2rem;
+        text-transform: capitalize;
+        padding: 5px;
+      }
     }
   }
   .logout-btn {
