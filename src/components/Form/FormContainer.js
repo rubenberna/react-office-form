@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom'
 
 import './Form.scss'
 import FormOptions from './Options/FormOptions'
+import FormStrijk from './Options/Forms/FormStrijk'
 import PositiveMessage from '../Layout/Message/PositiveMessage'
 import webtolead from '../Api/webtolead'
 
@@ -16,10 +17,15 @@ class Form extends React.Component {
   renderOptions = () => {
     const { user, history } = this.props
     const { error } = this.state
-    if ( !user ) {
-      history.push('/login')
-    } else {
-      return (<FormOptions onFormSubmit={ this.switchForm } error={ error } closeError= { this.closeError }/>)
+    console.log(user);
+    if ( !user ) history.push('/login')
+    else if (user.type === 'regular') {
+      return <FormOptions
+              onFormSubmit={ this.switchForm }
+              error={ error }
+              closeError={ this.closeError }/>
+    } else if (user.type === 'strijk') {
+      return <FormStrijk onFormSubmit={ this.switchForm } />
     }
   }
 
@@ -32,6 +38,7 @@ class Form extends React.Component {
   switchForm = ( obj, type ) => {
     if( type === 'lead') this.createLead(obj)
     if ( type === 'solicitant') this.createSolicitant(obj)
+    if ( type === 'strijk') this.createStrijk(obj)
   }
 
   createLead = async (obj) => {
@@ -44,7 +51,7 @@ class Form extends React.Component {
     const post = await webtolead.postLead(obj)
     if (post !== 200) this.setState({ error: post })
     else {
-      setTimeout(() => this.setState({ success: true }), 1000)
+      setTimeout(() => this.setState({ success: true }), 300)
       setTimeout(() => this.setState({ success: false }), 5000)
     }
   }
@@ -56,6 +63,18 @@ class Form extends React.Component {
     obj.company = user.name
     obj.RegioId__c = user.regioID
     const post = await webtolead.postSolicitant(obj)
+    if (post !== 200) this.setState({ error: post})
+    else {
+      setTimeout(() => this.setState({ success: true }), 1000)
+      setTimeout(() => this.setState({ success: false }), 5000)
+    }
+  }
+
+  createStrijk = async obj => {
+    const { user } = this.props
+    this.setState({ name: `${obj.first_name} ${obj.last_name}` })
+    obj.company = user.name
+    const post = await webtolead.postStrijk(obj)
     if (post !== 200) this.setState({ error: post})
     else {
       setTimeout(() => this.setState({ success: true }), 1000)

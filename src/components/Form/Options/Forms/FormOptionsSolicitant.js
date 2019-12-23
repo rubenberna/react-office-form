@@ -53,7 +53,7 @@ class FormSolicitant extends Component {
   clearFieldError = (stateField) => {
     const change = {}
     change[stateField] = false
-    this.setState({ 
+    this.setState({
       ...change })
   }
 
@@ -96,7 +96,7 @@ class FormSolicitant extends Component {
     else if (!lead_source) this.setState({ originError: true })
     else {
       onFormSubmit(this.state, 'solicitant')
-      this.setState({ 
+      this.setState({
         loading: true,
         disabled: true
        })
@@ -156,6 +156,3 @@ class FormSolicitant extends Component {
 }
 
 export default FormSolicitant;
-
-{/* <Form.Input required disabled={ disabled } fluid label='Postcode' type='number' placeholder='Postcode' onChange={e => this.findCity(e)} />
-<Form.Select required disabled={ disabled } error={ cityError } loading={loadingInput} fluid label='Gemeente' options={cities} placeholder={cities.length > 0 ? 'selecteer' : 'geen resultaat'} onFocus={ e => this.clearFieldError('cityError') } onChange={e => this.setState({ city: e.target.innerText })} /> */}
