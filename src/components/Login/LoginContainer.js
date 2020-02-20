@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom'
 
-import db from '../db/dboffices'
+import { offices, strijkOffices } from '../db/dboffices'
 import './Login.scss';
 import LoginSwitch from './LoginSwitch'
 import LoginFormGewoon from './Form/LoginFormGewoon'
@@ -11,8 +11,8 @@ import NegativeMessage from '../Layout/Message/NegativeMessage'
 
 class LoginContainer extends React.Component {
   state = {
-    offices: db.offices.sort(this.compare),
-    strijkOffices: db.strijkOffices.sort(this.compare),
+    offices: offices,
+    strijkOffices: strijkOffices,
     messageVisible: false,
     selectedLogin: ''
   }
@@ -33,26 +33,11 @@ class LoginContainer extends React.Component {
     }
   }
 
-  compare(a, b) {
-    const nameA = a.name
-    const nameB = b.name
-
-    let comparison = 0;
-    if (nameA > nameB) {
-      comparison = 1;
-    } else if (nameA < nameB) {
-      comparison = -1;
-    }
-    return comparison
-  }
-
   renderLogin() {
     const { offices, selectedLogin, strijkOffices } = this.state
     if (!offices) return (<Loader/>)
-    else if (!selectedLogin) return <LoginSwitch selectLogin={this.selectLogin}/>
     else if (selectedLogin === 'gewoon') return <LoginFormGewoon list={ offices } onFormSubmit={this.validate} />
     else if (selectedLogin === 'strijk') return <LoginFormStrijk list={ strijkOffices } onFormSubmit={this.validate} />
-    else return <LoginSwitch selectLogin={this.selectLogin}/>
   }
 
   selectLogin = (name) => {
@@ -74,6 +59,7 @@ class LoginContainer extends React.Component {
           <span>Helaas pindakaas </span>
           <p>Je password is niet juist ingevuld !</p>
         </NegativeMessage>
+        <LoginSwitch selectLogin={this.selectLogin}/>
         { this.renderLogin() }
       </div>
     )

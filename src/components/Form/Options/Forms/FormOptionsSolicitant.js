@@ -4,9 +4,7 @@ import { slideInUp } from 'react-animations';
 import styled, { keyframes } from 'styled-components';
 
 import '../../Form.scss'
-import { findCity } from '../../../Api/postcode'
-import dbOffices from '../../../db/dboffices'
-import CheckIcon from '../../../Layout/CheckIcon/CheckIcon'
+import { originSolicitant } from '../../../db/dboffices'
 import NegativeMessage from '../../../Layout/Message/NegativeMessage'
 import Loader from '../../../Layout/Loader/Loader'
 
@@ -66,27 +64,6 @@ class FormSolicitant extends Component {
     }
   }
 
-  findCity = async (e) => {
-    let zipInput = e.target.value
-    this.setState({ zip: zipInput })
-    if (zipInput) {
-      this.setState({ loadingInput: true })
-      const res = await findCity(zipInput)
-      const list = res.map(city => {
-        return {
-          key: city.Postcode.naam_deelgemeente,
-          text: city.Postcode.naam_deelgemeente,
-          value: city.Postcode.naam_deelgemeente
-        }
-      }
-      )
-      this.setState({
-        cities: list
-      })
-      this.setState({ loadingInput: false })
-    }
-  }
-
   handleSubmit = async e => {
     e.preventDefault();
     const { onFormSubmit, closeForm, closeError } = this.props
@@ -115,7 +92,7 @@ class FormSolicitant extends Component {
     const { error, closeError } = this.props
     return (
       <div>
-        {messageVisible && <CheckIcon />}
+        {messageVisible && <h1>Success</h1>}
         {
           <AnimationDiv>
               <Form className='form-border' onSubmit={ this.handleSubmit }>
@@ -134,7 +111,7 @@ class FormSolicitant extends Component {
                     <Form.Input required fluid disabled={ disabled } label='Postcode' type='number' placeholder='Postcode' onChange={ e => this.handleInput('zip', e)  }/>
                     <Form.Input required fluid disabled={ disabled } label='Gemeente' type='text' placeholder='Gemeente' onChange={ e => this.handleInput('city', e) }/>
                   </Form.Group>
-                    <Form.Select required fluid disabled={disabled} error={ originError } onFocus={ e => this.clearFieldError('originError') } label='Oorsprong' options={dbOffices.originSolicitant} placeholder='Collega' onChange= { e => this.setState({ lead_source: e.target.innerText }) }/>
+                    <Form.Select required fluid disabled={disabled} error={ originError } onFocus={ e => this.clearFieldError('originError') } label='Oorsprong' options={originSolicitant} placeholder='Collega' onChange= { e => this.setState({ lead_source: e.target.innerText }) }/>
                         {lead_source === 'Actie' && <Form.Group widths='equal'>
                     <Form.Input required disabled={ disabled } fluid label='Name' placeholder='bv: Kerstmis' onChange={e => this.handleInput('NaamActie__c', e)} />
                     <Form.Input required disabled={ disabled } fluid label='Detail' placeholder='bv: 24 December' onChange={e => this.handleInput('DetailActie__c', e)} />

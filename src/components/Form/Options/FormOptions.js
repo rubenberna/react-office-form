@@ -5,7 +5,6 @@ import {
 } from 'semantic-ui-react';
 import FormKlant from './Forms/FormOptionsKlant';
 import FormSolicitant from './Forms/FormOptionsSolicitant'
-import Placeholder from '../../Layout/Placeholder/Placeholder'
 
 class FormOptions extends React.Component {
   state = {
@@ -44,7 +43,7 @@ class FormOptions extends React.Component {
     const { klantBtn, solicitantBtn } = this.state
     if (klantBtn) return (<FormKlant onFormSubmit={ onFormSubmit } closeForm={ this.closeForm} error={ error } closeError={ closeError } />)
     else if (solicitantBtn) return (<FormSolicitant onFormSubmit={onFormSubmit} closeForm={this.closeForm} error={error} closeError={ closeError }/>)
-    else return (<Placeholder />)
+    else return <h1>Waiting for you</h1>
   }
 
   render() {

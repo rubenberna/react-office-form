@@ -6,7 +6,7 @@
     "axios": "^0.18.1",
     "firebase": "^5.11.1",
     "firebase-admin": "^7.4.0",
-    "node-sass": "^4.12.0",
+    "node-sass": "^4.13.1",
     "react": "^16.10.2",
     "react-animations": "^1.0.0",
     "react-dom": "^16.10.2",
@@ -14,7 +14,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "2.1.8",
     "semantic-ui-react": "^0.86.0",
-    "styled-components": "^4.4.0"
+    "styled-components": "^4.4.1"
   },
   "devDependencies": {
     "nodemon": "^1.19.3"

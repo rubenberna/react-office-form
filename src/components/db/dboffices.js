@@ -1,4 +1,4 @@
-const offices = [
+export const offices = [
   { key: '0', name: 'Roeselare', password: 'Roeselare06', regioID: '20006', sf_id: '0010Y000012KduBQAS', company: 'SIVAC', type: 'regular'},
   { key: '1', name: 'Schilde', password: 'Schilde04', regioID: '10004', sf_id: '0010Y00000ryjbuQAA', company: 'EasyLife', type: 'regular'},
   { key: '2', name: 'Westmalle', password: 'Westmalle05', regioID: '10005', sf_id: '0010Y00000ryjbqQAA', company: 'EasyLife', type: 'regular'},
@@ -23,9 +23,9 @@ const offices = [
   { key: '21', name: 'Sint-Niklaas', password: 'Sint-Niklaas04', regioID: '30004', sf_id: 'unknown', company: 'DILITO', type: 'regular'},
   { key: '22', name: 'Tervuren', password: 'Tervuren12', regioID: '10012', sf_id: 'unknown', company: 'EasyLife', type: 'regular'},
   { key: '23', name: 'Geel', password: 'Geel13', regioID: '10013', sf_id: 'unknown', company: 'EasyLife', type: 'regular'},
-]
+].sort((a, b) => (a.name > b.name) ? 1 : -1)
 
-const strijkOffices = [
+export const strijkOffices = [
   { key: '0', name: 'Berchem', password: 'Berchem1082', type: 'strijk'},
   { key: '1', name: 'Aalter', password: 'Aalter9880', type: 'strijk'},
   { key: '2', name: 'Borsbeek', password: 'Borsbeek2150', type: 'strijk'},
@@ -37,9 +37,9 @@ const strijkOffices = [
   { key: '8', name: 'Oostkamp', password: 'Oostkamp8020', type: 'strijk'},
   { key: '9', name: 'Sint-Martens-Latem', password: 'Latem9830', type: 'strijk'},
   { key: '10', name: 'Westmalle', password: 'Westmalle2390', type: 'strijk'},
-]
+].sort((a, b) => (a.name > b.name) ? 1 : -1)
 
-const originKlant = [
+export const originKlant = [
   { key: '0', text: 'Prints', value: 'Prints' },
   { key: '1', text: 'Google', value: 'Google' },
   { key: '2', text: 'Actie', value: 'Actie' },
@@ -51,7 +51,7 @@ const originKlant = [
   { key: '8', text: 'Walk-in', value: 'PerWalk-insoneel' }
 ]
 
-const availabilityKlant = [
+export const availabilityKlant = [
   { key: '0', text: 'Niet mogelijk', value: 'Niet mogelijk' },
   { key: '1', text: 'Voormidag', value: 'Voormidag' },
   { key: '2', text: 'Namiddag', value: 'Namiddag' },
@@ -59,12 +59,12 @@ const availabilityKlant = [
   { key: '4', text: 'Niet geweten', value: 'Niet geweten' },
 ]
 
-const languages = [
+export const languages = [
   { key: '0', text: 'Nederlands' , value: 'Nederlands' },
   { key: '1', text: 'Frans', value:'Frans' },
 ]
 
-const originSolicitant = [
+export const originSolicitant = [
   { key: '0', text: 'VDAB', value: 'VDAB' },
   { key: '1', text: 'Collega', value: 'Collega' },
   { key: '2', text: 'Walk in', value: 'Walk in' },
@@ -80,12 +80,3 @@ const originSolicitant = [
   { key: '12', text: 'Interim: Assap', value: 'Interim: Asap' },
   { key: '13', text: 'Interim: Adecco', value: 'Interim: Adecco' },
 ]
-
-export default {
-  offices,
-  originKlant,
-  availabilityKlant,
-  languages,
-  originSolicitant,
-  strijkOffices
-}

@@ -5,11 +5,9 @@ import styled, { keyframes } from 'styled-components';
 import { slideInRight } from 'react-animations';
 
 import '../../Form.scss'
-import dbOffices from '../../../db/dboffices'
-import CheckIcon from '../../../Layout/CheckIcon/CheckIcon'
+import { offices, originKlant, availabilityKlant, languages } from '../../../db/dboffices'
 import NegativeMessage from '../../../Layout/Message/NegativeMessage'
 import Loader from '../../../Layout/Loader/Loader'
-import { findCity } from '../../../Api/postcode'
 
 const slideInAnimation = keyframes`${slideInRight}`;
 
@@ -89,25 +87,6 @@ class FormKlant extends Component {
     }
   }
 
-  findCity = async (e) => {
-    let zip = e.target.value
-    this.setState({ zip: zip })
-    if (zip) {
-      this.setState({ loadingInput: true })
-      const res = await findCity(zip)
-      const list = res.map(city => { return {
-        key: city.Postcode.naam_deelgemeente,
-        text: city.Postcode.naam_deelgemeente,
-        value: city.Postcode.naam_deelgemeente }
-        }
-      )
-      this.setState({
-        cities: list
-      })
-      this.setState({ loadingInput: false })
-    }
-  }
-
   handleSubmit = async e => {
     e.preventDefault();
     const { onFormSubmit, closeForm, closeError } = this.props
@@ -138,7 +117,7 @@ class FormKlant extends Component {
     const { error, closeError } = this.props
     return (
       <div>
-        { messageVisible && <CheckIcon /> }
+        { messageVisible && <h1>Success</h1>}
         {
           <AnimationDiv>
             <Form className='form-border'
@@ -147,7 +126,7 @@ class FormKlant extends Component {
               <Form.Group widths='equal'>
                 <Form.Input required fluid disabled={disabled} label='Voornaam' placeholder='Voornaam' onChange= { e => this.handleInput('first_name', e) }/>
                 <Form.Input required fluid disabled={disabled} label='Achternaam' placeholder='Achternaam' onChange= { e => this.handleInput('last_name', e)  }/>
-                <Form.Select required fluid disabled={disabled} error={langError} label='Taal' options={dbOffices.languages} placeholder='Taal' onFocus={e => this.clearFieldError('langError')} onChange={e => e.target.innerText === 'Frans' ? this.setState({ 'language_lead__c': 'fr' }) : this.setState({ 'language_lead__c': 'nl' })}
+                <Form.Select required fluid disabled={disabled} error={langError} label='Taal' options={languages} placeholder='Taal' onFocus={e => this.clearFieldError('langError')} onChange={e => e.target.innerText === 'Frans' ? this.setState({ 'language_lead__c': 'fr' }) : this.setState({ 'language_lead__c': 'nl' })}
                 />
               </Form.Group>
               <Form.Group widths='equal'>
@@ -190,16 +169,16 @@ class FormKlant extends Component {
                 />
               </Form.Group>
               <Form.Group widths='equal'>
-                <Form.Select fluid disabled={ disabled } label='Maandag' defaultValue="Niet mogelijk" options={dbOffices.availabilityKlant} placeholder='Niet mogelijk' onChange= { e => this.setState({ 'Maandagpicklist__c': e.target.innerText }) }/>
-                <Form.Select fluid disabled={ disabled } label='Dinsdag' defaultValue="Niet mogelijk" options={dbOffices.availabilityKlant} placeholder='Niet mogelijk' onChange= { e => this.setState({ 'Dinsdagpicklist__c': e.target.innerText }) }/>
-                <Form.Select fluid disabled={ disabled } label='Woensdag' defaultValue="Niet mogelijk" options={dbOffices.availabilityKlant} placeholder='Niet mogelijk' onChange= { e => this.setState({ Woensdagpicklist__c: e.target.innerText }) }/>
+                <Form.Select fluid disabled={ disabled } label='Maandag' defaultValue="Niet mogelijk" options={availabilityKlant} placeholder='Niet mogelijk' onChange= { e => this.setState({ 'Maandagpicklist__c': e.target.innerText }) }/>
+                <Form.Select fluid disabled={ disabled } label='Dinsdag' defaultValue="Niet mogelijk" options={availabilityKlant} placeholder='Niet mogelijk' onChange= { e => this.setState({ 'Dinsdagpicklist__c': e.target.innerText }) }/>
+                <Form.Select fluid disabled={ disabled } label='Woensdag' defaultValue="Niet mogelijk" options={availabilityKlant} placeholder='Niet mogelijk' onChange= { e => this.setState({ Woensdagpicklist__c: e.target.innerText }) }/>
               </Form.Group>
               <Form.Group widths='equal'>
-                <Form.Select fluid disabled={ disabled } label='Donderdag' defaultValue="Niet mogelijk" options={dbOffices.availabilityKlant} placeholder='Niet mogelijk' onChange= { e => this.setState({ 'Donderdagpicklist__c': e.target.innerText }) }/>
-                <Form.Select fluid disabled={ disabled } label='Vrijdag' defaultValue="Niet mogelijk" options={dbOffices.availabilityKlant} placeholder='Niet mogelijk' onChange= { e => this.setState({ 'Vrijdagpicklist__c': e.target.innerText }) }/>
-                <Form.Select fluid disabled={ disabled } label='Zaterdag' defaultValue="Niet mogelijk" options={dbOffices.availabilityKlant} placeholder='Niet mogelijk' onChange= { e => this.setState({ 'Zaterdagpicklist__c': e.target.innerText }) }/>
+                <Form.Select fluid disabled={ disabled } label='Donderdag' defaultValue="Niet mogelijk" options={availabilityKlant} placeholder='Niet mogelijk' onChange= { e => this.setState({ 'Donderdagpicklist__c': e.target.innerText }) }/>
+                <Form.Select fluid disabled={ disabled } label='Vrijdag' defaultValue="Niet mogelijk" options={availabilityKlant} placeholder='Niet mogelijk' onChange= { e => this.setState({ 'Vrijdagpicklist__c': e.target.innerText }) }/>
+                <Form.Select fluid disabled={ disabled } label='Zaterdag' defaultValue="Niet mogelijk" options={availabilityKlant} placeholder='Niet mogelijk' onChange= { e => this.setState({ 'Zaterdagpicklist__c': e.target.innerText }) }/>
               </Form.Group>
-              <Form.Select fluid disabled={ disabled } error={ originError } required label='Oorsprong' options={dbOffices.originKlant} placeholder='Telefoon' onFocus={ e => this.clearFieldError('originError') } onChange= { e => this.setState({ lead_source: e.target.innerText }) }/>
+              <Form.Select fluid disabled={ disabled } error={ originError } required label='Oorsprong' options={originKlant} placeholder='Telefoon' onFocus={ e => this.clearFieldError('originError') } onChange= { e => this.setState({ lead_source: e.target.innerText }) }/>
               {lead_source === 'Actie' && <Form.Group widths='equal'>
                 <Form.Input required fluid disabled={ disabled } label='Name' placeholder='bv: Kerstmis' onChange={e => this.handleInput('NaamActie__c', e)} />
                 <Form.Input required fluid disabled={ disabled } label='Detail' placeholder='bv: 24 December' onChange={e => this.handleInput('DetailActie__c', e)} />
@@ -221,4 +200,3 @@ class FormKlant extends Component {
 }
 
 export default withRouter(FormKlant)
-
