@@ -108,7 +108,7 @@ class FormKlant extends Component {
       setTimeout(() => {
         closeForm('klantBtn')
         closeError()
-      }, 6000)
+      }, 7000)
     }
   }
 
