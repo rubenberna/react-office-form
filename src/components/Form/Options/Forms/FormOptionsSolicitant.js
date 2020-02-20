@@ -7,6 +7,7 @@ import '../../Form.scss'
 import { originSolicitant } from '../../../db/dboffices'
 import NegativeMessage from '../../../Layout/Message/NegativeMessage'
 import Loader from '../../../Layout/Loader/Loader'
+import GreatSuccess from '../../../Layout/Gifs/Giphy'
 
 const slideInAnimation = keyframes`${slideInUp}`;
 
@@ -22,7 +23,6 @@ class FormSolicitant extends Component {
     cityError: null,
     lead_source: '',
     disabled: false,
-    cities: [],
     loadingInput: false,
     first_name: '',
     last_name: '',
@@ -88,11 +88,11 @@ class FormSolicitant extends Component {
   }
 
   render() {
-    const { messageVisible, lead_source, loading, disabled, cities, loadingInput, cityError, originError } = this.state
+    const { messageVisible, lead_source, loading, disabled, originError } = this.state
     const { error, closeError } = this.props
     return (
       <div>
-        {messageVisible && <h1>Success</h1>}
+        {messageVisible && <GreatSuccess />}
         {
           <AnimationDiv>
               <Form className='form-border' onSubmit={ this.handleSubmit }>

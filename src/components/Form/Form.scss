@@ -24,12 +24,6 @@
       color: white !important;
     }
   }
-
-  input[type=number]::-webkit-inner-spin-button,
-  input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
 }
 
 .ui.centered.inline.loader.active {
@@ -50,13 +44,13 @@
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: auto;
-  background-image: url('../../assets/img/background.jpg');
+  background-image: url('../../assets/img/julia.jpg');
+  filter: saturate(0.4);
   background-size: cover !important;
   min-height: 100%;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
-  filter: brightness(55%);
   height: 68vh;
 }
 
@@ -68,4 +62,10 @@
   label {
     color: #FFF !important;
   }
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

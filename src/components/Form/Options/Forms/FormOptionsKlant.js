@@ -5,9 +5,10 @@ import styled, { keyframes } from 'styled-components';
 import { slideInRight } from 'react-animations';
 
 import '../../Form.scss'
-import { offices, originKlant, availabilityKlant, languages } from '../../../db/dboffices'
+import { originKlant, availabilityKlant, languages } from '../../../db/dboffices'
 import NegativeMessage from '../../../Layout/Message/NegativeMessage'
 import Loader from '../../../Layout/Loader/Loader'
+import GreatSuccess from '../../../Layout/Gifs/Giphy'
 
 const slideInAnimation = keyframes`${slideInRight}`;
 
@@ -19,7 +20,6 @@ const AnimationDiv = styled.div`
 class FormKlant extends Component {
   state = {
     messageVisible: false,
-    cities: [],
     loadingInput: false,
     disabled: false,
     originError: null,
@@ -113,11 +113,11 @@ class FormKlant extends Component {
   }
 
   render() {
-    const { Frequentie__c, messageVisible, lead_source, loading, cities, loadingInput, disabled, cityError, originError, langError } = this.state
+    const { Frequentie__c, messageVisible, lead_source, loading, disabled, originError, langError } = this.state
     const { error, closeError } = this.props
     return (
       <div>
-        { messageVisible && <h1>Success</h1>}
+        { messageVisible && <GreatSuccess />}
         {
           <AnimationDiv>
             <Form className='form-border'

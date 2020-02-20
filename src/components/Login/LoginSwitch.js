@@ -6,6 +6,7 @@ const StyledDiv = style.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 50px;
 `
 
 const StyledTitle = style.h3`

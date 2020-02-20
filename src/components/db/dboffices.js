@@ -36,7 +36,7 @@ export const strijkOffices = [
   { key: '7', name: 'Oostduinkerke', password: 'Oostduinkerke8670', type: 'strijk'},
   { key: '8', name: 'Oostkamp', password: 'Oostkamp8020', type: 'strijk'},
   { key: '9', name: 'Sint-Martens-Latem', password: 'Latem9830', type: 'strijk'},
-  { key: '10', name: 'Westmalle', password: 'Westmalle2390', type: 'strijk'},
+  { key: '10', name: 'Westmalle', password: 'Westmalle2390', type: 'strijk'}
 ].sort((a, b) => (a.name > b.name) ? 1 : -1)
 
 export const originKlant = [

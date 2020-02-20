@@ -17,7 +17,7 @@ class Form extends React.Component {
   renderOptions = () => {
     const { user, history } = this.props
     const { error } = this.state
-    console.log(user);
+
     if ( !user ) history.push('/login')
     else if (user.type === 'regular') {
       return <FormOptions
@@ -44,8 +44,6 @@ class Form extends React.Component {
   createLead = async (obj) => {
     const { user } = this.props
     this.setState({ name: `${obj.first_name} ${obj.last_name}` })
-    obj.RegioId__c = user.regioID
-    obj.KantoorId__c = user.sf_id
     obj.company = user.name
 
     const post = await webtolead.postLead(obj)
@@ -59,9 +57,7 @@ class Form extends React.Component {
   createSolicitant = async (obj) => {
     const { user } = this.props
     this.setState({ name: `${obj.first_name} ${obj.last_name}` })
-    obj.KantoorId__c = user.sf_id
     obj.company = user.name
-    obj.RegioId__c = user.regioID
     const post = await webtolead.postSolicitant(obj)
     if (post !== 200) this.setState({ error: post})
     else {

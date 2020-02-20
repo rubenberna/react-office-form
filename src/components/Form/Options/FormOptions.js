@@ -43,7 +43,6 @@ class FormOptions extends React.Component {
     const { klantBtn, solicitantBtn } = this.state
     if (klantBtn) return (<FormKlant onFormSubmit={ onFormSubmit } closeForm={ this.closeForm} error={ error } closeError={ closeError } />)
     else if (solicitantBtn) return (<FormSolicitant onFormSubmit={onFormSubmit} closeForm={this.closeForm} error={error} closeError={ closeError }/>)
-    else return <h1>Waiting for you</h1>
   }
 
   render() {
