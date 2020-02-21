@@ -19,10 +19,10 @@ export const offices = [
   { key: '17', name: 'Middelkerke', password: 'Middelkerke01', regioID: '20001', sf_id: '0010Y00000ryjbwQAA', company: 'SIVAC', type: 'regular'},
   { key: '18', name: 'Wilrijk', password: 'Wilrijk01', regioID: '10001', sf_id: '0010Y00000ryjbxQAA', company: 'EasyLife', type: 'regular'},
   { key: '19', name: 'Melle', password: 'Melle02', regioID: '30002', sf_id: '0010Y00000ryjboQAA', company: 'DILITO', type: 'regular'},
-  { key: '20', name: 'Dilbeek', password: 'Dilbeek11', regioID: '10011', sf_id: 'unknown', company: 'EasyLife', type: 'regular'},
-  { key: '21', name: 'Sint-Niklaas', password: 'Sint-Niklaas04', regioID: '30004', sf_id: 'unknown', company: 'DILITO', type: 'regular'},
-  { key: '22', name: 'Tervuren', password: 'Tervuren12', regioID: '10012', sf_id: 'unknown', company: 'EasyLife', type: 'regular'},
-  { key: '23', name: 'Geel', password: 'Geel13', regioID: '10013', sf_id: 'unknown', company: 'EasyLife', type: 'regular'},
+  { key: '20', name: 'Dilbeek', password: 'Dilbeek11', regioID: '10011', sf_id: '0011v00002FIDvoAAH', company: 'EasyLife', type: 'regular'},
+  { key: '21', name: 'Sint-Niklaas', password: 'Sint-Niklaas04', regioID: '30004', sf_id: '0011v00002CEPWMAA5', company: 'DILITO', type: 'regular'},
+  { key: '22', name: 'Tervuren', password: 'Tervuren12', regioID: '10012', sf_id: '0011v00002CEPTDAA5', company: 'EasyLife', type: 'regular'},
+  { key: '23', name: 'Geel', password: 'Geel13', regioID: '10013', sf_id: '0011v00002FzI7fAAF', company: 'EasyLife', type: 'regular'},
 ].sort((a, b) => (a.name > b.name) ? 1 : -1)
 
 export const strijkOffices = [

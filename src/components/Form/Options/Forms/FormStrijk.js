@@ -65,7 +65,7 @@ class FormSolicitant extends Component {
           disabled: false,
           messageVisible: false
         })
-      }, 7000)
+      }, 8000)
   }
 
   render() {

@@ -45,6 +45,7 @@ class Form extends React.Component {
     const { user } = this.props
     this.setState({ name: `${obj.first_name} ${obj.last_name}` })
     obj.company = user.name
+    obj.kantoor = user.sf_id
 
     const post = await webtolead.postLead(obj)
     if (post !== 200) this.setState({ error: post })
@@ -58,6 +59,7 @@ class Form extends React.Component {
     const { user } = this.props
     this.setState({ name: `${obj.first_name} ${obj.last_name}` })
     obj.company = user.name
+    obj.kantoor = user.sf_id
     const post = await webtolead.postSolicitant(obj)
     if (post !== 200) this.setState({ error: post})
     else {
