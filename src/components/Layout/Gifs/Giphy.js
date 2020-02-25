@@ -11,7 +11,7 @@ const StyledGif = style.div`
 const GreatSuccess = () => {
   return(
     <StyledGif>
-      <iframe title='great-success' src="https://giphy.com/embed/slOhiKAVFgwr6" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+      <iframe title='great-success' src="https://giphy.com/embed/slOhiKAVFgwr6" width="480" height="270" frameBorder="0" className="giphy-embed" allowFullScreen></iframe>
     </StyledGif>
   )
 }
