@@ -4,6 +4,10 @@ const url = process.env.REACT_APP_WEB_TO_LEAD_URL
 const sandbox = process.env.REACT_APP_SANDBOX
 const proxy = process.env.REACT_APP_PROXY
 
+/*
+  4 things are necessary to insert a lead:
+  company, regioID, kantoor Ingave (=1) and kantoor__c (=name of the office)
+*/
 const postLead = (lead) => {
   console.log('webtolead: ', lead);
   return axios.post(`

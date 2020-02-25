@@ -45,7 +45,6 @@ class Form extends React.Component {
     const { user } = this.props
     this.setState({ name: `${obj.first_name} ${obj.last_name}` })
     obj.company = user.name
-    obj.kantoorId = user.sf_id
     obj.regio = user.regioID
     obj.kantoorName = user.name
     const post = await webtolead.postLead(obj)
@@ -60,7 +59,6 @@ class Form extends React.Component {
     const { user } = this.props
     this.setState({ name: `${obj.first_name} ${obj.last_name}` })
     obj.company = user.name
-    obj.kantoorId = user.sf_id
     obj.regio = user.regioID
     obj.kantoorName = user.name
     const post = await webtolead.postSolicitant(obj)
