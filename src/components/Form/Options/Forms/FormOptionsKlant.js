@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
+import axios from 'axios'
 import { withRouter } from 'react-router-dom'
 import { Form, Checkbox } from 'semantic-ui-react'
 import styled, { keyframes } from 'styled-components';
 import { slideInRight } from 'react-animations';
+import Autocomplete from 'react-google-autocomplete';
 
 import '../../Form.scss'
 import { originKlant, availabilityKlant, languages } from '../../../db/dboffices'
@@ -71,6 +73,40 @@ class FormKlant extends Component {
     })
   }
 
+  handleAddress = async (place) => {
+    let addressArray = place.formatted_address.split(',')
+    let street = addressArray[0]
+    let city = addressArray[1].match(/\D/g).join('')
+    let zip;
+    // If results come with zip code
+    if (/[0-9]/.test(addressArray[1])){
+      zip = addressArray[1].match(/\d+/)[0]
+    } else {
+    // If it doens't, fetch with lat long
+      let lat = place.geometry.location.lat()
+      let lng = place.geometry.location.lng()
+      let latlng = `${lat},${lng}`
+      zip = await this.getPostCode(latlng)
+    }
+    this.setState({
+      street,
+      city,
+      zip
+    })
+  }
+
+  getPostCode = async coords => {
+    let params = {
+      language: 'nl',
+      latlng: coords,
+      key: process.env.REACT_APP_GOOGLE_API_KEY
+    }
+    const res = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {params})
+    const { formatted_address } = res.data.results[0]
+    const zip = formatted_address.split(',')[1].match(/\d+/)[0]
+    return zip
+  }
+
   clearFieldError = (stateField) => {
     const change = {}
     change[stateField] = false
@@ -113,7 +149,7 @@ class FormKlant extends Component {
   }
 
   render() {
-    const { Frequentie__c, messageVisible, lead_source, loading, disabled, originError, langError } = this.state
+    const { Frequentie__c, messageVisible, lead_source, loading, disabled, originError, langError, cityError } = this.state
     const { error, closeError } = this.props
     return (
       <div>
@@ -133,12 +169,16 @@ class FormKlant extends Component {
                 <Form.Input fluid disabled={ disabled } label='E-mail' placeholder='E-mail' type="email" onChange= { e => this.handleInput('email', e) }/>
                 <Form.Input required fluid disabled={disabled} label='GSM-Nummer' placeholder='GSM-Nummer' type="number" onChange= { e => this.handleInput('mobile', e) }/>
               </Form.Group>
-              <Form.Group widths='equal'>
-                <Form.Input required fluid disabled={ disabled } label='Straat' placeholder='Straat' onChange= { e => this.handleInput('street', e) }/>
-                <Form.Input fluid disabled={ disabled } label='Box' placeholder='Box' onChange= { e => this.handleInput('Box__c', e) }/>
-                <Form.Input required fluid disabled={ disabled } label='Postcode' type='number' placeholder='Postcode' onChange={ e => this.handleInput('zip', e)  }/>
-                <Form.Input required fluid disabled={ disabled } label='Gemeente' type='text' placeholder='Gemeente' onChange={ e => this.handleInput('city', e) }/>
-              </Form.Group>
+              <div style={{ display: 'flex', flexDirection: 'column', paddingBottom: '10px' }}>
+                <label style={{ fontWeight: 600 }}>Adres</label>
+                <Autocomplete
+                  className={cityError ? 'address-error' : ''}
+                  style={{width: '90%'}}
+                  onPlaceSelected={(place) => this.handleAddress(place)}
+                  types={['address']}
+                  componentRestrictions={{country: "be"}}
+                />
+              </div>
               <Form.Group style={{ display: 'flex', alignItems: 'center' }} >
                 <Form.Input width={7} required disabled={ disabled } fluid label='Gewenst aantal uren (Per week)' placeholder='bv: 3' type='number' onChange= { e => this.handleInput('Gewenst_aantal_uren_per_week__c', e) }/>
                 <Form.Field control={ Checkbox } disabled={ disabled } label='Strijk' onChange={ this.handleStrijkChange }/>
