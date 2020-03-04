@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
+import axios from 'axios'
 import { Form } from 'semantic-ui-react'
 import { slideInUp } from 'react-animations';
 import styled, { keyframes } from 'styled-components';
+import Autocomplete from 'react-google-autocomplete';
 
 import '../../Form.scss'
 import { originSolicitant } from '../../../db/dboffices'
@@ -48,6 +50,40 @@ class FormSolicitant extends Component {
     })
   }
 
+  handleAddress = async (place) => {
+    let addressArray = place.formatted_address.split(',')
+    let street = addressArray[0]
+    let city = addressArray[1].match(/\D/g).join('')
+    let zip;
+    // If results come with zip code
+    if (/[0-9]/.test(addressArray[1])){
+      zip = addressArray[1].match(/\d+/)[0]
+    } else {
+    // If it doens't, fetch with lat long
+      let lat = place.geometry.location.lat()
+      let lng = place.geometry.location.lng()
+      let latlng = `${lat},${lng}`
+      zip = await this.getPostCode(latlng)
+    }
+    this.setState({
+      street,
+      city,
+      zip
+    })
+  }
+
+  getPostCode = async coords => {
+    let params = {
+      language: 'nl',
+      latlng: coords,
+      key: process.env.REACT_APP_GOOGLE_API_KEY
+    }
+    const res = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {params})
+    const { formatted_address } = res.data.results[0]
+    const zip = formatted_address.split(',')[1].match(/\d+/)[0]
+    return zip
+  }
+
   clearFieldError = (stateField) => {
     const change = {}
     change[stateField] = false
@@ -88,7 +124,7 @@ class FormSolicitant extends Component {
   }
 
   render() {
-    const { messageVisible, lead_source, loading, disabled, originError } = this.state
+    const { messageVisible, lead_source, loading, disabled, originError, cityError } = this.state
     const { error, closeError } = this.props
     return (
       <div>
@@ -105,12 +141,16 @@ class FormSolicitant extends Component {
                     <Form.Input fluid disabled={ disabled }label='E-mail' type="email" placeholder='E-mail' onChange= { e => this.handleInput('email', e) }/>
                     <Form.Input required disabled={ disabled } fluid label='GSM-Nummer' placeholder='GSM-Nummer' type="number" onChange= { e => this.handleInput('mobile', e) }/>
                   </Form.Group>
-                  <Form.Group widths='equal'>
-                    <Form.Input required disabled={ disabled } fluid label='Straat' placeholder='Straat' onChange= { e => this.handleInput('street', e) }/>
-                    <Form.Input fluid disabled={ disabled } label='Box' placeholder='Box' onChange= { e => this.handleInput('Box__c', e) }/>
-                    <Form.Input required fluid disabled={ disabled } label='Postcode' type='number' placeholder='Postcode' onChange={ e => this.handleInput('zip', e)  }/>
-                    <Form.Input required fluid disabled={ disabled } label='Gemeente' type='text' placeholder='Gemeente' onChange={ e => this.handleInput('city', e) }/>
-                  </Form.Group>
+                  <div style={{ display: 'flex', flexDirection: 'column', paddingBottom: '10px' }}>
+                    <label style={{ fontWeight: 600 }}>Adres</label>
+                    <Autocomplete
+                      className={cityError ? 'address-error' : ''}
+                      style={{width: '90%'}}
+                      onPlaceSelected={(place) => this.handleAddress(place)}
+                      types={['address']}
+                      componentRestrictions={{country: "be"}}
+                    />
+                  </div>
                     <Form.Select required fluid disabled={disabled} error={ originError } onFocus={ e => this.clearFieldError('originError') } label='Oorsprong' options={originSolicitant} placeholder='Collega' onChange= { e => this.setState({ lead_source: e.target.innerText }) }/>
                         {lead_source === 'Actie' && <Form.Group widths='equal'>
                     <Form.Input required disabled={ disabled } fluid label='Name' placeholder='bv: Kerstmis' onChange={e => this.handleInput('NaamActie__c', e)} />
