@@ -25,7 +25,7 @@ class FormKlant extends Component {
     loadingInput: false,
     disabled: false,
     originError: null,
-    cityError: null,
+    cityError: false,
     langError: null,
     first_name: '',
     last_name: '',
@@ -74,25 +74,27 @@ class FormKlant extends Component {
   }
 
   handleAddress = async (place) => {
-    let addressArray = place.formatted_address.split(',')
-    let street = addressArray[0]
-    let city = addressArray[1].match(/\D/g).join('')
-    let zip;
-    // If results come with zip code
-    if (/[0-9]/.test(addressArray[1])){
-      zip = addressArray[1].match(/\d+/)[0]
-    } else {
-    // If it doens't, fetch with lat long
-      let lat = place.geometry.location.lat()
-      let lng = place.geometry.location.lng()
-      let latlng = `${lat},${lng}`
-      zip = await this.getPostCode(latlng)
-    }
-    this.setState({
-      street,
-      city,
-      zip
-    })
+    if (place.formatted_address) {
+      let addressArray = place.formatted_address.split(',')
+      let street = addressArray[0]
+      let city = addressArray[1].match(/\D/g).join('')
+      let zip;
+      // If results come with zip code
+      if (/[0-9]/.test(addressArray[1])){
+        zip = addressArray[1].match(/\d+/)[0]
+      } else {
+        // If it doens't, fetch with lat long
+        let lat = place.geometry.location.lat()
+        let lng = place.geometry.location.lng()
+        let latlng = `${lat},${lng}`
+        zip = await this.getPostCode(latlng)
+      }
+      this.setState({
+        street,
+        city,
+        zip
+      })
+    } else this.setState({ cityError: true })
   }
 
   getPostCode = async coords => {

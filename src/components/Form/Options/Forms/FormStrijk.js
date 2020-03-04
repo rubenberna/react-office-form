@@ -1,16 +1,19 @@
 import React, { Component } from 'react'
+import axios from 'axios'
 import { Form } from 'semantic-ui-react'
+import Autocomplete from 'react-google-autocomplete';
 
 import '../../Form.scss'
 import NegativeMessage from '../../../Layout/Message/NegativeMessage'
 import Loader from '../../../Layout/Loader/Loader'
 import GreatSuccess from '../../../Layout/Gifs/Giphy'
 
-class FormSolicitant extends Component {
+class FormStrijk extends Component {
   state = {
     messageVisible: false,
     disabled: false,
     loadingInput: false,
+    cityError: false,
     first_name: '',
     last_name: '',
     email: '',
@@ -31,6 +34,42 @@ class FormSolicitant extends Component {
     this.setState({
       ...change
     })
+  }
+
+  handleAddress = async (place) => {
+    if (place.formatted_address) {
+      let addressArray = place.formatted_address.split(',')
+      let street = addressArray[0]
+      let city = addressArray[1].match(/\D/g).join('')
+      let zip;
+      // If results come with zip code
+      if (/[0-9]/.test(addressArray[1])){
+        zip = addressArray[1].match(/\d+/)[0]
+      } else {
+        // If it doens't, fetch with lat long
+        let lat = place.geometry.location.lat()
+        let lng = place.geometry.location.lng()
+        let latlng = `${lat},${lng}`
+        zip = await this.getPostCode(latlng)
+      }
+      this.setState({
+        street,
+        city,
+        zip
+      })
+    } else this.setState({ cityError: true })
+  }
+
+  getPostCode = async coords => {
+    let params = {
+      language: 'nl',
+      latlng: coords,
+      key: process.env.REACT_APP_GOOGLE_API_KEY
+    }
+    const res = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {params})
+    const { formatted_address } = res.data.results[0]
+    const zip = formatted_address.split(',')[1].match(/\d+/)[0]
+    return zip
   }
 
   clearFieldError = (stateField) => {
@@ -69,7 +108,7 @@ class FormSolicitant extends Component {
   }
 
   render() {
-    const { messageVisible, loading, disabled } = this.state
+    const { messageVisible, loading, disabled, cityError } = this.state
     const { error, closeError } = this.props
     return (
       <div>
@@ -85,12 +124,16 @@ class FormSolicitant extends Component {
               <Form.Input fluid disabled={ disabled }label='E-mail' type="email" placeholder='E-mail' onChange= { e => this.handleInput('email', e) }/>
               <Form.Input required disabled={ disabled } fluid label='GSM-Nummer' placeholder='GSM-Nummer' type="number" onChange= { e => this.handleInput('mobile', e) }/>
             </Form.Group>
-            <Form.Group widths='equal'>
-              <Form.Input required disabled={ disabled } fluid label='Straat' placeholder='Straat' onChange= { e => this.handleInput('street', e) }/>
-              <Form.Input fluid disabled={ disabled } label='Box' placeholder='Box' onChange= { e => this.handleInput('Box__c', e) }/>
-              <Form.Input required fluid disabled={ disabled } label='Postcode' type='number' placeholder='Postcode' onChange={ e => this.handleInput('zip', e)  }/>
-              <Form.Input required fluid disabled={ disabled } label='Gemeente' type='text' placeholder='Gemeente' onChange={ e => this.handleInput('city', e) }/>
-            </Form.Group>
+            <div style={{ display: 'flex', flexDirection: 'column', paddingBottom: '10px' }}>
+              <label style={{ fontWeight: 600 }}>Adres</label>
+              <Autocomplete
+                className={cityError ? 'address-error' : ''}
+                style={{width: '90%'}}
+                onPlaceSelected={(place) => this.handleAddress(place)}
+                types={['address']}
+                componentRestrictions={{country: "be"}}
+              />
+            </div>
             <Form.Button color='orange'>Bevestigen</Form.Button>
           </Form>
         }
@@ -106,4 +149,4 @@ class FormSolicitant extends Component {
   }
 }
 
-export default FormSolicitant;
+export default FormStrijk;
