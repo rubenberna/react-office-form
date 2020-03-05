@@ -172,7 +172,7 @@ class FormKlant extends Component {
                 <Form.Input required fluid disabled={disabled} label='GSM-Nummer' placeholder='GSM-Nummer' type="number" onChange= { e => this.handleInput('mobile', e) }/>
               </Form.Group>
               <div style={{ display: 'flex', flexDirection: 'column', paddingBottom: '10px' }}>
-                <label style={{ fontWeight: 600 }}>Adres</label>
+                <label style={{ fontWeight: 600 }}>Google search adres</label>
                 <Autocomplete
                   className={cityError ? 'address-error' : ''}
                   style={{width: '90%'}}
