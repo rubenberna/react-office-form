@@ -18,11 +18,15 @@ const Navbar = ({ office, onLogout }) => {
 
   const renderButtons = () => {
     if (office) {
-      return(<Logout office={ office } quitSession={ onLogout }/>)
+      return(
+        <Logout office={ office } quitSession={ onLogout }/>
+        
+      )
     } else {
       return (<Login />)
     }
   }
+
 
   return (
     <div className="navbar">
