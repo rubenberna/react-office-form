@@ -4,12 +4,14 @@ import { Form } from 'semantic-ui-react'
 import { slideInUp } from 'react-animations';
 import styled, { keyframes } from 'styled-components';
 import Autocomplete from 'react-google-autocomplete';
+import { connect } from 'react-redux'
 
 import '../../Form.scss'
 import { originSolicitant } from '../../../db/dboffices'
 import NegativeMessage from '../../../Layout/Message/NegativeMessage'
 import Loader from '../../../Layout/Loader/Loader'
 import GreatSuccess from '../../../Layout/Gifs/Giphy'
+import { saveFormSollicitant } from '../../../../actions/saveForm'
 
 const slideInAnimation = keyframes`${slideInUp}`;
 
@@ -174,4 +176,4 @@ class FormSolicitant extends Component {
   }
 }
 
-export default FormSolicitant;
+export default connect(null, {saveFormSollicitant})(FormSolicitant)

@@ -2,11 +2,14 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { Form } from 'semantic-ui-react'
 import Autocomplete from 'react-google-autocomplete';
+import { connect } from 'react-redux'
 
 import '../../Form.scss'
 import NegativeMessage from '../../../Layout/Message/NegativeMessage'
 import Loader from '../../../Layout/Loader/Loader'
 import GreatSuccess from '../../../Layout/Gifs/Giphy'
+import { saveFormStrijken } from '../../../../actions/saveForm'
+
 
 class FormStrijk extends Component {
   state = {
@@ -148,5 +151,4 @@ class FormStrijk extends Component {
     )
   }
 }
-
-export default FormStrijk;
+export default connect(null, {saveFormStrijken})(FormStrijk)
