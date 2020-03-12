@@ -2,6 +2,9 @@ import React from 'react'
 import { BrowserRouter, Route } from 'react-router-dom'
 import LoginContainer from './Login/LoginContainer'
 import FormContainer from './Form/FormContainer'
+import SubmissionsContainer from './Login/SubmissionsContainer'
+
+
 import Navbar from './Layout/Navbar/Navbar'
 
 class App extends React.Component {
@@ -43,6 +46,10 @@ class App extends React.Component {
             path="/login"
             render={() => <LoginContainer
             onLoggedIn={ this.saveUser } />}
+            />
+             <Route
+            path="/datail"
+            render={() => <SubmissionsContainer/>}
             />
         </BrowserRouter>
       </div>

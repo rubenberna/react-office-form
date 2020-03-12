@@ -3,6 +3,8 @@ import logo from '../../../assets/img/logo.png'
 import './Navbar.scss'
 import Logout from './buttons/NavbarLogoutButton'
 import Login from './buttons/NavbarLoginButton'
+import SubmissionsButton from './buttons/SubmissionsButton'
+
 import { Link } from 'react-router-dom'
 
 const Navbar = ({ office, onLogout }) => {
@@ -18,7 +20,13 @@ const Navbar = ({ office, onLogout }) => {
 
   const renderButtons = () => {
     if (office) {
-      return(<Logout office={ office } quitSession={ onLogout }/>)
+      return(
+        <div className="nav-button">
+          <SubmissionsButton/>
+      <Logout office={ office } quitSession={ onLogout }/>
+    
+      </div>
+        )
     } else {
       return (<Login />)
     }
