@@ -14,7 +14,6 @@ class App extends React.Component {
 
   saveUser = user => {
     localStorage.setItem('user', JSON.stringify(user))
-    console.log(user);
     this.setState({
       user
     })
@@ -48,8 +47,8 @@ class App extends React.Component {
             onLoggedIn={ this.saveUser } />}
             />
              <Route
-            path="/datail"
-            render={() => <SubmissionsContainer/>}
+            path="/details"
+            render={this.state.user != null ?() => <SubmissionsContainer/> : ""}
             />
         </BrowserRouter>
       </div>

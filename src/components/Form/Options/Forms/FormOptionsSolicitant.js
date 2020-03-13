@@ -4,15 +4,15 @@ import { Form } from 'semantic-ui-react'
 import { slideInUp } from 'react-animations';
 import styled, { keyframes } from 'styled-components';
 import Autocomplete from 'react-google-autocomplete';
-import { connect } from 'react-redux'
+import omit from "lodash/omit";
+import {connect} from 'react-redux'
 
 import '../../Form.scss'
 import { originSolicitant } from '../../../db/dboffices'
 import NegativeMessage from '../../../Layout/Message/NegativeMessage'
 import Loader from '../../../Layout/Loader/Loader'
 import GreatSuccess from '../../../Layout/Gifs/Giphy'
-import { saveFormSollicitant } from '../../../../actions/saveForm'
-
+import {saveFormSollicitant } from '../../../../actions/saveForm'
 const slideInAnimation = keyframes`${slideInUp}`;
 
 const AnimationDiv = styled.div`
@@ -117,6 +117,8 @@ class FormSolicitant extends Component {
         loading: true,
         disabled: true
        })
+       const form = omit(this.state, 'messageVisible', 'loadingInput' , 'disabled' , 'originError' , 'cityError' , 'langError' , 'strijk' , 'disabled' , 'loadingInput'  )
+       this.props.saveFormSollicitant(form)
       setTimeout(() => {
         this.setState({ loading: false })
         this.toggleSuccess()}, 1000 )
@@ -176,4 +178,4 @@ class FormSolicitant extends Component {
   }
 }
 
-export default connect(null, {saveFormSollicitant})(FormSolicitant)
+export default  connect(null , {saveFormSollicitant}) (FormSolicitant) ;

@@ -1,18 +1,18 @@
 import React, { Component } from 'react'
+import omit from "lodash/omit";
 import axios from 'axios'
 import { withRouter } from 'react-router-dom'
 import { Form, Checkbox } from 'semantic-ui-react'
 import styled, { keyframes } from 'styled-components';
 import { slideInRight } from 'react-animations';
 import Autocomplete from 'react-google-autocomplete';
-import { connect } from 'react-redux'
-
+import {connect} from 'react-redux'
 import '../../Form.scss'
 import { originKlant, availabilityKlant, languages } from '../../../db/dboffices'
 import NegativeMessage from '../../../Layout/Message/NegativeMessage'
 import Loader from '../../../Layout/Loader/Loader'
 import GreatSuccess from '../../../Layout/Gifs/Giphy'
-import { saveFormClient } from '../../../../actions/saveForm'
+import {saveFormClient } from '../../../../actions/saveForm'
 
 const slideInAnimation = keyframes`${slideInRight}`;
 
@@ -141,7 +141,8 @@ class FormKlant extends Component {
         loading: true,
         disabled: true
      })
-     saveFormClient(this.state)
+     const form = omit(this.state, 'messageVisible', 'loadingInput' , 'disabled' , 'originError' , 'cityError' , 'langError' , 'strijk'  )
+     this.props.saveFormClient(form)
       setTimeout(() => {
         this.setState({ loading: false })
         this.toggleGif()
@@ -243,6 +244,5 @@ class FormKlant extends Component {
     )
   }
 }
-
-const formSollicitantView = connect(null, {saveFormClient})(FormKlant)
-export default withRouter(formSollicitantView)
+const viewForm = connect(null , {saveFormClient}) (FormKlant)
+export default withRouter(viewForm)

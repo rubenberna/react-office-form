@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 
 class SubmissionsButton extends React.Component {
   showDetailForm = async () => {
-    this.props.history.push("/datail");
+    this.props.history.push("/details");
   };
   render() {
     return (

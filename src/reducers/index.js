@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
 
-import lastClientReducer from "./lastClientReducer";
-import lastSollicitantReducer from "./lastSollicitantReducer";
-import lastStrijkenReducer from "./lastStrijkenReducer";
+import latestClientReducer from "./latestClientReducer";
+import latestSollicitantReducer from "./latestSollicitantReducer";
+import latestStrijkenReducer from "./latestStrijkenReducer";
 export default combineReducers({
-  lastClient: lastClientReducer,
-  lastSollicitant: lastSollicitantReducer,
-  lastStrijken: lastStrijkenReducer
+  latestClient: latestClientReducer,
+  latestSollicitant: latestSollicitantReducer,
+  latestStrijken: latestStrijkenReducer
 });

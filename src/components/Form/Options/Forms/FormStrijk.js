@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { Form } from 'semantic-ui-react'
 import Autocomplete from 'react-google-autocomplete';
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
+import omit from "lodash/omit";
 
 import '../../Form.scss'
 import NegativeMessage from '../../../Layout/Message/NegativeMessage'
@@ -99,6 +100,9 @@ class FormStrijk extends Component {
       loading: true,
       disabled: true
      })
+     const form = omit(this.state, 'messageVisible', 'loadingInput' , 'disabled' , 'originError' , 'cityError' , 'langError' , 'strijk' , 'disabled' , 'loadingInput'  )
+
+     this.props.saveFormStrijken(form)
     setTimeout(() => {
       this.setState({ loading: false })
       this.toggleSuccess()}, 700 )
@@ -151,4 +155,5 @@ class FormStrijk extends Component {
     )
   }
 }
-export default connect(null, {saveFormStrijken})(FormStrijk)
+
+export default  connect(null , {saveFormStrijken}) (FormStrijk) ;

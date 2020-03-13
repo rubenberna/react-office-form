@@ -1,11 +1,13 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 import './Form.scss'
 import FormOptions from './Options/FormOptions'
 import FormStrijk from './Options/Forms/FormStrijk'
 import PositiveMessage from '../Layout/Message/PositiveMessage'
 import webtolead from '../Api/webtolead'
+import {saveFormStrijken , saveFormSollicitant , saveFormClient} from '../../actions/saveForm'
 
 class Form extends React.Component {
   state = {
@@ -82,6 +84,7 @@ class Form extends React.Component {
   }
 
   render() {
+    console.log(this.createLead)
     return (
       <div className="form-container">
         { <PositiveMessage visible={ this.state.success }  >
@@ -94,5 +97,5 @@ class Form extends React.Component {
     )
   }
 }
-
-export default withRouter(Form)
+const viewForm =  connect(null, {saveFormStrijken , saveFormSollicitant , saveFormClient})(Form);
+export default withRouter(viewForm)
