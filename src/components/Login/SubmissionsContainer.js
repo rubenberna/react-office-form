@@ -9,27 +9,27 @@ function SubmissionsContainer(props) {
       menuItem: "Klant",
       render: () =>
         <Tab.Pane attached={false}>
-          {props.latestClient.arr.map((property, i) =>
+          {props.latestClient.length > 0? props.latestClient.map((property, i) =>
             <Tableclient key={i} client={property} />
-          )}
+          ): "Er zijn geen klanten formulieren ingevuld"}
         </Tab.Pane>
     },
     {
       menuItem: "Sollicitant",
       render: () =>
         <Tab.Pane attached={false}>
-          {props.latestSollicitant.arr.map((property, i) =>
+          {props.latestSollicitant.arr.length > 0? props.latestSollicitant.arr.map((property, i) =>
             <Tableclient key={i} client={property} />
-          )}
+          ) : "Er zijn geen sollicitant formulieren ingevuld"}
         </Tab.Pane>
     },
     {
       menuItem: "Strijk",
       render: () =>
         <Tab.Pane attached={false}>
-          {props.latestStrijken.arr.map((property, i) =>
+          {props.latestStrijken.arr.length > 0?props.latestStrijken.arr.map((property, i) =>
             <Tableclient key={i} client={property} />
-          )}
+          ) : "Er zijn geen strijken formulieren ingevuld"}
         </Tab.Pane>
     }
   ];

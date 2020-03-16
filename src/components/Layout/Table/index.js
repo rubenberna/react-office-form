@@ -26,7 +26,9 @@ export default class index extends Component {
         onClick={this.handleClick}
       >
         <Icon name='dropdown' />
-        {this.props.client.first_name}
+        {this.props.client.first_name} 
+     {"      "}
+        {this.props.client.datatime}
       </Accordion.Title>
       <Accordion.Content active={activeIndex === 2}>
       <React.Fragment>
@@ -79,6 +81,13 @@ export default class index extends Component {
               <Table.Cell>Email</Table.Cell>
               <Table.Cell>
                 {this.props.client.email}
+              </Table.Cell>
+            </Table.Row>
+            
+            <Table.Row>
+              <Table.Cell>Gemaakt op</Table.Cell>
+              <Table.Cell>
+                {this.props.client.datatime}
               </Table.Cell>
             </Table.Row>
             <Table.Row>

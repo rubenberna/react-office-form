@@ -84,7 +84,6 @@ class Form extends React.Component {
   }
 
   render() {
-    console.log(this.createLead)
     return (
       <div className="form-container">
         { <PositiveMessage visible={ this.state.success }  >

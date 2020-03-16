@@ -4,6 +4,7 @@ import { Form } from 'semantic-ui-react'
 import Autocomplete from 'react-google-autocomplete';
 import {connect} from 'react-redux'
 import omit from "lodash/omit";
+import moment from 'moment'
 
 import '../../Form.scss'
 import NegativeMessage from '../../../Layout/Message/NegativeMessage'
@@ -101,6 +102,7 @@ class FormStrijk extends Component {
       disabled: true
      })
      const form = omit(this.state, 'messageVisible', 'loadingInput' , 'disabled' , 'originError' , 'cityError' , 'langError' , 'strijk' , 'disabled' , 'loadingInput'  )
+     form.datatime =   moment().format('MMMM Do YYYY, h:mm:ss a');
 
      this.props.saveFormStrijken(form)
     setTimeout(() => {

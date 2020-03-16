@@ -6,6 +6,7 @@ import styled, { keyframes } from 'styled-components';
 import Autocomplete from 'react-google-autocomplete';
 import omit from "lodash/omit";
 import {connect} from 'react-redux'
+import moment from 'moment'
 
 import '../../Form.scss'
 import { originSolicitant } from '../../../db/dboffices'
@@ -118,6 +119,7 @@ class FormSolicitant extends Component {
         disabled: true
        })
        const form = omit(this.state, 'messageVisible', 'loadingInput' , 'disabled' , 'originError' , 'cityError' , 'langError' , 'strijk' , 'disabled' , 'loadingInput'  )
+       form.datatime =   moment().format('MMMM Do YYYY, h:mm:ss a');
        this.props.saveFormSollicitant(form)
       setTimeout(() => {
         this.setState({ loading: false })

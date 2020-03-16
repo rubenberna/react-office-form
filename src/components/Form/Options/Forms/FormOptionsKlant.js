@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import omit from "lodash/omit";
 import axios from 'axios'
+import moment from 'moment'
 import { withRouter } from 'react-router-dom'
 import { Form, Checkbox } from 'semantic-ui-react'
 import styled, { keyframes } from 'styled-components';
@@ -142,6 +143,9 @@ class FormKlant extends Component {
         disabled: true
      })
      const form = omit(this.state, 'messageVisible', 'loadingInput' , 'disabled' , 'originError' , 'cityError' , 'langError' , 'strijk'  )
+  
+     form.datatime =   moment().format('MMMM Do YYYY, h:mm:ss a');
+
      this.props.saveFormClient(form)
       setTimeout(() => {
         this.setState({ loading: false })
