@@ -3,6 +3,7 @@
 .navbar {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-left: 135px;
   margin-right: 135px;
   margin-top: 20px;
@@ -50,5 +51,8 @@
 
   .show {
     display: block;
+  }
+  .nav-buttons {
+    display: flex;
   }
 }

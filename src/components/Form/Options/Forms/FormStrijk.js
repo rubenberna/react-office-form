@@ -1,9 +1,14 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import { Form } from 'semantic-ui-react'
 import Autocomplete from 'react-google-autocomplete';
+import moment from 'moment';
+import _ from 'lodash';
 
 import '../../Form.scss'
+import { saveFormStrijken } from '../../../../store/actions/index'
 import NegativeMessage from '../../../Layout/Message/NegativeMessage'
 import Loader from '../../../Layout/Loader/Loader'
 import GreatSuccess from '../../../Layout/Gifs/Giphy'
@@ -43,7 +48,7 @@ class FormStrijk extends Component {
       let city = addressArray[1].match(/\D/g).join('')
       let zip;
       // If results come with zip code
-      if (/[0-9]/.test(addressArray[1])){
+      if (/[0-9]/.test(addressArray[1])) {
         zip = addressArray[1].match(/\d+/)[0]
       } else {
         // If it doens't, fetch with lat long
@@ -66,7 +71,7 @@ class FormStrijk extends Component {
       latlng: coords,
       key: process.env.REACT_APP_GOOGLE_API_KEY
     }
-    const res = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {params})
+    const res = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', { params })
     const { formatted_address } = res.data.results[0]
     const zip = formatted_address.split(',')[1].match(/\d+/)[0]
     return zip
@@ -76,12 +81,13 @@ class FormStrijk extends Component {
     const change = {}
     change[stateField] = false
     this.setState({
-      ...change })
+      ...change
+    })
   }
 
   toggleSuccess = () => {
     const { error } = this.props
-    if(!error) {
+    if (!error) {
       this.setState({
         messageVisible: true
       })
@@ -95,16 +101,20 @@ class FormStrijk extends Component {
     this.setState({
       loading: true,
       disabled: true
-     })
+    })
+    const form = _.omit(this.state, 'messageVisible', 'loadingInput', 'disabled', 'cityError')
+    form.datatime = moment().format('MMMM Do YYYY, h:mm:ss a');
+    this.props.saveFormStrijken(form)
     setTimeout(() => {
       this.setState({ loading: false })
-      this.toggleSuccess()}, 700 )
-      setTimeout(() => {
-        this.setState({
-          disabled: false,
-          messageVisible: false
-        })
-      }, 8000)
+      this.toggleSuccess()
+    }, 700)
+    setTimeout(() => {
+      this.setState({
+        disabled: false,
+        messageVisible: false
+      })
+    }, 8000)
   }
 
   render() {
@@ -114,26 +124,28 @@ class FormStrijk extends Component {
       <div>
         {messageVisible && <GreatSuccess />}
         {
-          <Form className='form-strijk' onSubmit={ this.handleSubmit }>
+          <Form className='form-strijk' onSubmit={this.handleSubmit}>
             <h3>Nieuwe Strijk Klant</h3>
             <Form.Group widths='equal'>
-              <Form.Input required disabled={ disabled } fluid label='Voornaam' placeholder='Voornaam' onChange= { e => this.handleInput('first_name', e) }/>
-              <Form.Input required disabled={ disabled } fluid label='Achternaam' placeholder='Achternaam' onChange= { e => this.handleInput('last_name', e)  }/>
+              <Form.Input required disabled={disabled} fluid label='Voornaam' placeholder='Voornaam' onChange={e => this.handleInput('first_name', e)} />
+              <Form.Input required disabled={disabled} fluid label='Achternaam' placeholder='Achternaam' onChange={e => this.handleInput('last_name', e)} />
             </Form.Group>
             <Form.Group widths='equal'>
-              <Form.Input fluid disabled={ disabled }label='E-mail' type="email" placeholder='E-mail' onChange= { e => this.handleInput('email', e) }/>
-              <Form.Input required disabled={ disabled } fluid label='GSM-Nummer' placeholder='GSM-Nummer' type="number" onChange= { e => this.handleInput('mobile', e) }/>
+              <Form.Input fluid disabled={disabled} label='E-mail' type="email" placeholder='E-mail' onChange={e => this.handleInput('email', e)} />
+              <Form.Input required disabled={disabled} fluid label='GSM-Nummer' placeholder='GSM-Nummer' type="number" onChange={e => this.handleInput('mobile', e)} />
             </Form.Group>
+
             <div style={{ display: 'flex', flexDirection: 'column', paddingBottom: '10px' }}>
               <label style={{ fontWeight: 600 }}>Google search adres</label>
               <Autocomplete
                 className={cityError ? 'address-error' : ''}
-                style={{width: '90%'}}
+                style={{ width: '90%' }}
                 onPlaceSelected={(place) => this.handleAddress(place)}
                 types={['address']}
-                componentRestrictions={{country: "be"}}
+                componentRestrictions={{ country: "be" }}
               />
             </div>
+
             <Form.Button color='orange'>Bevestigen</Form.Button>
           </Form>
         }
@@ -143,10 +155,11 @@ class FormStrijk extends Component {
             <p>Please contact Red Carrots team</p>
           </NegativeMessage>
         }
-        { loading && <Loader className='loader-form' /> }
+        {loading && <Loader className='loader-form' />}
       </div>
     )
   }
 }
 
-export default FormStrijk;
+const viewForm = connect(null, { saveFormStrijken })(FormStrijk)
+export default withRouter(viewForm)

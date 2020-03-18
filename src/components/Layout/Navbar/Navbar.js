@@ -1,30 +1,33 @@
 import React from 'react';
-import logo from '../../../assets/img/logo.png'
+import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import './Navbar.scss'
+import logo from '../../../assets/img/logo.png'
 import Logout from './buttons/NavbarLogoutButton'
 import Login from './buttons/NavbarLoginButton'
-import { Link } from 'react-router-dom'
+import LatestButton from './buttons/LatestButton'
 
-const Navbar = ({ office, onLogout }) => {
+const Navbar = ({ office, onLogout, history }) => {
 
   const message = () => {
-    if(office) return (
+    if (office) return (
       <div className='navbar-greeting-message'>
         <h2>Hallo, {office.name}!</h2>
-        { office.type === 'strijk' && <h1 className='navbar-greeting-message-strijk'>strijk</h1>}
+        {office.type === 'strijk' && <h1 className='navbar-greeting-message-strijk'>strijk</h1>}
       </div>
     )
   };
 
   const renderButtons = () => {
+
     if (office) {
-      return(
-        <Logout office={ office } quitSession={ onLogout }/>
-        
+      return (
+        <div className='nav-buttons'>
+          <LatestButton />
+          <Logout office={office} quitSession={onLogout} />
+        </div>
       )
-    } else {
-      return (<Login />)
-    }
+    } else return (<Login />)
   }
 
 
@@ -45,4 +48,4 @@ const Navbar = ({ office, onLogout }) => {
   )
 }
 
-export default Navbar;
+export default withRouter(Navbar);

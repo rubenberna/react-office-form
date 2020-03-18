@@ -1,11 +1,16 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { Form } from 'semantic-ui-react'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import { slideInUp } from 'react-animations';
 import styled, { keyframes } from 'styled-components';
 import Autocomplete from 'react-google-autocomplete';
+import _ from 'lodash'
+import moment from 'moment'
 
 import '../../Form.scss'
+import { saveFormSollicitant } from '../../../../store/actions/index'
 import { originSolicitant } from '../../../db/dboffices'
 import NegativeMessage from '../../../Layout/Message/NegativeMessage'
 import Loader from '../../../Layout/Loader/Loader'
@@ -57,7 +62,7 @@ class FormSolicitant extends Component {
       let city = addressArray[1].match(/\D/g).join('')
       let zip;
       // If results come with zip code
-      if (/[0-9]/.test(addressArray[1])){
+      if (/[0-9]/.test(addressArray[1])) {
         zip = addressArray[1].match(/\d+/)[0]
       } else {
         // If it doens't, fetch with lat long
@@ -80,7 +85,7 @@ class FormSolicitant extends Component {
       latlng: coords,
       key: process.env.REACT_APP_GOOGLE_API_KEY
     }
-    const res = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {params})
+    const res = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', { params })
     const { formatted_address } = res.data.results[0]
     const zip = formatted_address.split(',')[1].match(/\d+/)[0]
     return zip
@@ -90,12 +95,13 @@ class FormSolicitant extends Component {
     const change = {}
     change[stateField] = false
     this.setState({
-      ...change })
+      ...change
+    })
   }
 
   toggleSuccess = () => {
     const { error } = this.props
-    if(!error) {
+    if (!error) {
       this.setState({
         messageVisible: true
       })
@@ -114,10 +120,14 @@ class FormSolicitant extends Component {
       this.setState({
         loading: true,
         disabled: true
-       })
+      })
+      const form = _.omit(this.state, 'messageVisible', 'loadingInput', 'disabled', 'originError', 'cityError')
+      form.datatime = moment().format('MMMM Do YYYY, h:mm:ss a');
+      this.props.saveFormSollicitant(form)
       setTimeout(() => {
         this.setState({ loading: false })
-        this.toggleSuccess()}, 1000 )
+        this.toggleSuccess()
+      }, 1000)
       setTimeout(() => {
         closeForm('solicitantBtn')
         closeError()
@@ -133,34 +143,36 @@ class FormSolicitant extends Component {
         {messageVisible && <GreatSuccess />}
         {
           <AnimationDiv>
-              <Form className='form-border' onSubmit={ this.handleSubmit }>
-                  <h3>Nieuwe Solicitant</h3>
-                  <Form.Group widths='equal'>
-                    <Form.Input required disabled={ disabled } fluid label='Voornaam' placeholder='Voornaam' onChange= { e => this.handleInput('first_name', e) }/>
-                    <Form.Input required disabled={ disabled } fluid label='Achternaam' placeholder='Achternaam' onChange= { e => this.handleInput('last_name', e)  }/>
-                  </Form.Group>
-                  <Form.Group widths='equal'>
-                    <Form.Input fluid disabled={ disabled }label='E-mail' type="email" placeholder='E-mail' onChange= { e => this.handleInput('email', e) }/>
-                    <Form.Input required disabled={ disabled } fluid label='GSM-Nummer' placeholder='GSM-Nummer' type="number" onChange= { e => this.handleInput('mobile', e) }/>
-                  </Form.Group>
-                  <div style={{ display: 'flex', flexDirection: 'column', paddingBottom: '10px' }}>
-                    <label style={{ fontWeight: 600 }}>Google search adres</label>
-                    <Autocomplete
-                      className={cityError ? 'address-error' : ''}
-                      style={{width: '90%'}}
-                      onPlaceSelected={(place) => this.handleAddress(place)}
-                      types={['address']}
-                      componentRestrictions={{country: "be"}}
-                    />
-                  </div>
-                    <Form.Select required fluid disabled={disabled} error={ originError } onFocus={ e => this.clearFieldError('originError') } label='Oorsprong' options={originSolicitant} placeholder='Collega' onChange= { e => this.setState({ lead_source: e.target.innerText }) }/>
-                        {lead_source === 'Actie' && <Form.Group widths='equal'>
-                    <Form.Input required disabled={ disabled } fluid label='Name' placeholder='bv: Kerstmis' onChange={e => this.handleInput('NaamActie__c', e)} />
-                    <Form.Input required disabled={ disabled } fluid label='Detail' placeholder='bv: 24 December' onChange={e => this.handleInput('DetailActie__c', e)} />
-                  </Form.Group>}
-                  <Form.Button color='orange'>Bevestigen</Form.Button>
-                </Form>
-            </AnimationDiv>
+            <Form className='form-border' onSubmit={this.handleSubmit}>
+              <h3>Nieuwe Solicitant</h3>
+              <Form.Group widths='equal'>
+                <Form.Input required disabled={disabled} fluid label='Voornaam' placeholder='Voornaam' onChange={e => this.handleInput('first_name', e)} />
+                <Form.Input required disabled={disabled} fluid label='Achternaam' placeholder='Achternaam' onChange={e => this.handleInput('last_name', e)} />
+              </Form.Group>
+              <Form.Group widths='equal'>
+                <Form.Input fluid disabled={disabled} label='E-mail' type="email" placeholder='E-mail' onChange={e => this.handleInput('email', e)} />
+                <Form.Input required disabled={disabled} fluid label='GSM-Nummer' placeholder='GSM-Nummer' type="number" onChange={e => this.handleInput('mobile', e)} />
+              </Form.Group>
+
+              <div style={{ display: 'flex', flexDirection: 'column', paddingBottom: '10px' }}>
+                <label style={{ fontWeight: 600 }}>Google search adres</label>
+                <Autocomplete
+                  className={cityError ? 'address-error' : ''}
+                  style={{ width: '90%' }}
+                  onPlaceSelected={(place) => this.handleAddress(place)}
+                  types={['address']}
+                  componentRestrictions={{ country: "be" }}
+                />
+              </div>
+
+              <Form.Select required fluid disabled={disabled} error={originError} onFocus={e => this.clearFieldError('originError')} label='Oorsprong' options={originSolicitant} placeholder='Collega' onChange={e => this.setState({ lead_source: e.target.innerText })} />
+              {lead_source === 'Actie' && <Form.Group widths='equal'>
+                <Form.Input required disabled={disabled} fluid label='Name' placeholder='bv: Kerstmis' onChange={e => this.handleInput('NaamActie__c', e)} />
+                <Form.Input required disabled={disabled} fluid label='Detail' placeholder='bv: 24 December' onChange={e => this.handleInput('DetailActie__c', e)} />
+              </Form.Group>}
+              <Form.Button color='orange'>Bevestigen</Form.Button>
+            </Form>
+          </AnimationDiv>
         }
         {
           <NegativeMessage visible={error} onClose={closeError} >
@@ -168,10 +180,11 @@ class FormSolicitant extends Component {
             <p>Please contact Red Carrots team</p>
           </NegativeMessage>
         }
-        { loading && <Loader className='loader-form' /> }
+        {loading && <Loader className='loader-form' />}
       </div>
     )
   }
 }
 
-export default FormSolicitant;
+const viewForm = connect(null, { saveFormSollicitant })(FormSolicitant)
+export default withRouter(viewForm)
